@@ -1,1 +1,0 @@
-# web-programming-2026-Nikita-Sevcenko

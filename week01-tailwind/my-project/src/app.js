@@ -1,3 +1,4 @@
+import "./styles.css";
 const menuButton = document.querySelector("#menuButton");
 const mainNav = document.querySelector("#mainNav");
 

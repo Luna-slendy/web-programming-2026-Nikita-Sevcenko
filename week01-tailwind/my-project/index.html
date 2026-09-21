@@ -9,40 +9,74 @@
 
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#">
-        <span class="brand-mark">CF</span>
-        <span>CampusFlow</span>
+  <header class="sticky top-0 z-50 border-b border-[#e5e9f2]/90 bg-white/90 backdrop-blur-[14px]">
+  <div class="mx-auto flex min-h-[72px] w-[calc(100%-40px)] max-w-[1180px] items-center gap-7">
+
+    <a class="inline-flex items-center gap-2.5 font-extrabold tracking-[-0.02em]" href="#">
+      <span class="grid h-[38px] w-[38px] place-items-center rounded-xl bg-gradient-to-br from-[#6d5dfc] to-[#8a7dff] text-[13px] text-white shadow-[0_8px_20px_rgba(109,93,252,0.28)]">
+        CF
+      </span>
+
+      <span>CampusFlow</span>
+    </a>
+
+    <button
+      class="ml-auto grid h-[42px] w-[42px] place-items-center rounded-[10px] border-0 bg-transparent p-[9px] md:hidden"
+      id="menuButton"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+    >
+      <span class="my-[5px] block h-0.5 w-full rounded-full bg-[#172033]"></span>
+      <span class="my-[5px] block h-0.5 w-full rounded-full bg-[#172033]"></span>
+      <span class="my-[5px] block h-0.5 w-full rounded-full bg-[#172033]"></span>
+    </button>
+
+    <nav
+      class="absolute left-5 right-5 top-[72px] hidden flex-col items-stretch gap-1 rounded-[14px] border border-[#e5e9f2] bg-white p-2 shadow-[0_18px_50px_rgba(34,45,78,0.08)] md:static md:ml-[18px] md:flex md:flex-row md:items-center md:border-0 md:bg-transparent md:p-0 md:shadow-none"
+      id="mainNav"
+    >
+      <a
+        class="rounded-[10px] bg-[#f1f3f8] px-3 py-[9px] text-sm font-semibold text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc]"
+        href="#"
+      >
+        Dashboard
       </a>
 
-      <button
-        class="menu-button"
-        id="menuButton"
-        aria-label="Toggle navigation"
-        aria-expanded="false"
+      <a
+        class="rounded-[10px] px-3 py-[9px] text-sm font-semibold text-[#6c7485] transition hover:bg-[#f1f3f8] hover:text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc]"
+        href="#projects"
       >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        Projects
+      </a>
 
-      <nav class="main-nav" id="mainNav">
-        <a class="nav-link active" href="#">Dashboard</a>
-        <a class="nav-link" href="#projects">Projects</a>
-        <a class="nav-link" href="#deadlines">Deadlines</a>
-        <a class="nav-link" href="#resources">Resources</a>
-      </nav>
+      <a
+        class="rounded-[10px] px-3 py-[9px] text-sm font-semibold text-[#6c7485] transition hover:bg-[#f1f3f8] hover:text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc]"
+        href="#deadlines"
+      >
+        Deadlines
+      </a>
 
-      <div class="profile">
-        <div class="avatar">AZ</div>
-        <div class="profile-copy">
-          <strong>Alex Student</strong>
-          <span>Web Programming</span>
-        </div>
+      <a
+        class="rounded-[10px] px-3 py-[9px] text-sm font-semibold text-[#6c7485] transition hover:bg-[#f1f3f8] hover:text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc]"
+        href="#resources"
+      >
+        Resources
+      </a>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-2.5 md:ml-auto">
+      <div class="grid h-[38px] w-[38px] place-items-center rounded-full bg-[#172033] text-xs font-extrabold text-white">
+        AZ
+      </div>
+
+      <div class="grid gap-px max-md:hidden">
+        <strong class="text-[13px]">Alex Student</strong>
+        <span class="text-[11px] text-[#6c7485]">Web Programming</span>
       </div>
     </div>
-  </header>
+
+  </div>
+</header>
 
   <main>
 

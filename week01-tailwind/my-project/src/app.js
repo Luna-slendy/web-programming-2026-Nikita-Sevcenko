@@ -3,8 +3,8 @@ const menuButton = document.querySelector("#menuButton");
 const mainNav = document.querySelector("#mainNav");
 
 menuButton.addEventListener("click", () => {
-  const isOpen = mainNav.classList.toggle("open");
-  menuButton.setAttribute("aria-expanded", String(isOpen));
+  const isHidden = mainNav.classList.toggle("hidden");
+  menuButton.setAttribute("aria-expanded", String(!isHidden));
 });
 
 const filterButtons = document.querySelectorAll(".filter-button");

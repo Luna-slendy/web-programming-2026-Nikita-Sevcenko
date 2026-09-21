@@ -6,7 +6,8 @@
   --shadow:0 18px 50px rgba(34,45,78,.08);--radius:18px;
 }
 
-*{box-sizing:border-box} html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 
 body{
   margin:0;
@@ -25,23 +26,7 @@ button{cursor:pointer}
   margin-inline:auto
 }
 
-/* HERO */
-
-.hero{
-  padding:64px 0 48px;
-  background:
-    radial-gradient(circle at 15% 10%,rgba(109,93,252,.14),transparent 34%),
-    radial-gradient(circle at 85% 0%,rgba(55,136,255,.10),transparent 28%)
-}
-
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.4fr .8fr;
-  gap:56px;
-  align-items:center
-}
-
-.eyebrow,.section-kicker{
+.eyebrow{
   margin:0 0 10px;
   font-size:11px;
   font-weight:800;
@@ -49,90 +34,12 @@ button{cursor:pointer}
   color:var(--primary)
 }
 
-.hero h1{
-  max-width:760px;
-  margin:0;
-  font-size:clamp(42px,6vw,72px);
-  line-height:.98;
-  letter-spacing:-.055em
-}
-
-.hero-text{
-  max-width:650px;
-  margin:24px 0 0;
-  color:var(--muted);
-  font-size:18px
-}
-
-.hero-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:30px
-}
-
-.button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:44px;
-  padding:0 18px;
-  border-radius:12px;
-  font-size:14px;
-  font-weight:750;
-  transition:transform 160ms ease,box-shadow 160ms ease,background 160ms ease
-}
-
-.button:hover{
-  transform:translateY(-1px)
-}
-
-.button-primary{
-  color:#fff;
-  background:var(--primary);
-  box-shadow:0 12px 24px rgba(109,93,252,.24)
-}
-
-.button-primary:hover{
-  background:var(--primary-dark)
-}
-
-.button-secondary{
-  background:#fff;
-  border:1px solid var(--line)
-}
-
-.button-secondary:hover{
-  box-shadow:0 10px 24px rgba(34,45,78,.08)
-}
-
-.hero-panel{
-  padding:24px;
-  border:1px solid rgba(255,255,255,.6);
-  border-radius:22px;
-  background:rgba(255,255,255,.78);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(10px)
-}
-
-.panel-label{
-  margin:0 0 18px;
-  font-size:13px;
-  color:var(--muted);
-  font-weight:700
-}
-
-.progress-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  font-size:13px;
-  margin-bottom:9px
-}
-
-.progress-row span{
-  color:var(--muted)
+.section-kicker{
+  margin:0 0 10px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.14em;
+  color:var(--primary)
 }
 
 .progress-track{
@@ -155,37 +62,6 @@ button{cursor:pointer}
 .progress-fill.purple{background:var(--primary)}
 .progress-fill.blue{background:var(--blue)}
 .progress-fill.green{background:var(--green)}
-
-.hero-panel-stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-top:24px
-}
-
-.hero-panel-stats div{
-  padding:16px 10px;
-  border-radius:14px;
-  background:var(--surface-soft);
-  text-align:center
-}
-
-.hero-panel-stats strong,
-.hero-panel-stats span{
-  display:block
-}
-
-.hero-panel-stats strong{
-  font-size:21px
-}
-
-.hero-panel-stats span{
-  margin-top:3px;
-  color:var(--muted);
-  font-size:10px
-}
-
-/* DASHBOARD */
 
 .dashboard-section{
   padding:34px 0 16px
@@ -268,8 +144,6 @@ button{cursor:pointer}
 
 .trend.positive{color:var(--green)}
 .trend.neutral{color:var(--muted)}
-
-/* PROJECTS */
 
 .project-heading{
   align-items:center
@@ -383,8 +257,6 @@ button{cursor:pointer}
 .text-link:hover{
   color:var(--primary-dark)
 }
-
-/* DEADLINES + RESOURCES */
 
 .two-column-section{
   display:grid;
@@ -533,8 +405,6 @@ button{cursor:pointer}
   font-size:11px
 }
 
-/* FOOTER */
-
 .site-footer{
   border-top:1px solid var(--line);
   background:#fff
@@ -550,14 +420,7 @@ button{cursor:pointer}
   font-size:11px
 }
 
-/* RESPONSIVE */
-
 @media(max-width:960px){
-  .hero-grid{
-    grid-template-columns:1fr;
-    gap:28px
-  }
-
   .stats-grid{
     grid-template-columns:repeat(2,1fr)
   }
@@ -578,30 +441,6 @@ button{cursor:pointer}
 @media(max-width:640px){
   .container{
     width:min(100% - 28px,1180px)
-  }
-
-  .hero{
-    padding-top:42px
-  }
-
-  .hero h1{
-    font-size:43px
-  }
-
-  .hero-text{
-    font-size:16px
-  }
-
-  .hero-actions{
-    display:grid
-  }
-
-  .button{
-    width:100%
-  }
-
-  .hero-panel-stats{
-    grid-template-columns:1fr
   }
 
   .section-heading,

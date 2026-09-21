@@ -80,62 +80,104 @@
 
   <main>
 
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">MONDAY WORKSPACE</span>
+    <section
+  class="bg-[radial-gradient(circle_at_15%_10%,rgba(109,93,252,0.14),transparent_34%),radial-gradient(circle_at_85%_0%,rgba(55,136,255,0.10),transparent_28%)] px-0 py-12 min-[961px]:py-16"
+>
+  <div
+    class="mx-auto grid w-[calc(100%-28px)] max-w-[1180px] items-center gap-7 min-[641px]:w-[calc(100%-40px)] min-[961px]:grid-cols-[1.4fr_0.8fr] min-[961px]:gap-14"
+  >
+    <div>
+      <span
+        class="mb-2.5 block text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]"
+      >
+        MONDAY WORKSPACE
+      </span>
 
-          <h1 class="text-purple-600"> 
-            Build, learn, and ship something useful.
-          </h1>
+      <h1
+        class="m-0 max-w-[760px] text-[43px] font-extrabold leading-[0.98] tracking-[-0.055em] text-[#6d5dfc] min-[641px]:text-[clamp(42px,6vw,72px)]"
+      >
+        Build, learn, and ship something useful.
+      </h1>
 
-          <p class="hero-text">
-            Track your current web-development tasks, upcoming deadlines,
-            and project progress in one place.
-          </p>
+      <p
+        class="mt-6 max-w-[650px] text-base leading-[1.5] text-[#6c7485] min-[641px]:text-lg"
+      >
+        Track your current web-development tasks, upcoming deadlines,
+        and project progress in one place.
+      </p>
 
-          <div class="hero-actions">
-            <a class="button button-primary" href="#projects">
-              View projects
-            </a>
+      <div class="mt-7 grid gap-3 min-[641px]:flex min-[641px]:flex-wrap">
+        <a
+          class="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#6d5dfc] px-[18px] text-sm font-bold text-white shadow-[0_12px_24px_rgba(109,93,252,0.24)] transition hover:-translate-y-px hover:bg-[#5547df] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-2 min-[641px]:w-auto"
+          href="#projects"
+        >
+          View projects
+        </a>
 
-            <a class="button button-secondary" href="#resources">
-              Open resources
-            </a>
-          </div>
+        <a
+          class="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-[#e5e9f2] bg-white px-[18px] text-sm font-bold transition hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(34,45,78,0.08)] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-2 min-[641px]:w-auto"
+          href="#resources"
+        >
+          Open resources
+        </a>
+      </div>
+    </div>
+
+    
+    <aside
+      class="rounded-[22px] border border-white/60 bg-white/[0.78] p-6 shadow-[0_18px_50px_rgba(34,45,78,0.08)] backdrop-blur-[10px]"
+    >
+      <p class="mb-[18px] m-0 text-[13px] font-bold text-[#6c7485]">
+        This week
+      </p>
+
+      <div
+        class="mb-[9px] flex items-center justify-between gap-4 text-[13px]"
+      >
+        <span class="text-[#6c7485]">Course progress</span>
+        <strong>68%</strong>
+      </div>
+
+      <div class="h-[9px] overflow-hidden rounded-full bg-[#eceef4]">
+        <div
+          class="h-full rounded-full bg-gradient-to-r from-[#6d5dfc] to-[#8e80ff]"
+          style="width: 68%"
+        ></div>
+      </div>
+
+      <div
+        class="mt-6 grid grid-cols-1 gap-3 min-[641px]:grid-cols-3"
+      >
+        <div
+          class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center"
+        >
+          <strong class="block text-[21px]">4</strong>
+          <span class="mt-[3px] block text-[10px] text-[#6c7485]">
+            Open tasks
+          </span>
         </div>
 
-        <aside class="hero-panel">
-          <p class="panel-label">This week</p>
+        <div
+          class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center"
+        >
+          <strong class="block text-[21px]">2</strong>
+          <span class="mt-[3px] block text-[10px] text-[#6c7485]">
+            Due soon
+          </span>
+        </div>
 
-          <div class="progress-row">
-            <span>Course progress</span>
-            <strong>68%</strong>
-          </div>
-
-          <div class="progress-track">
-            <div class="progress-fill" style="width: 68%"></div>
-          </div>
-
-          <div class="hero-panel-stats">
-            <div>
-              <strong>4</strong>
-              <span>Open tasks</span>
-            </div>
-
-            <div>
-              <strong>2</strong>
-              <span>Due soon</span>
-            </div>
-
-            <div>
-              <strong>7</strong>
-              <span>Completed</span>
-            </div>
-          </div>
-        </aside>
+        <div
+          class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center"
+        >
+          <strong class="block text-[21px]">7</strong>
+          <span class="mt-[3px] block text-[10px] text-[#6c7485]">
+            Completed
+          </span>
+        </div>
       </div>
-    </section>
+    </aside>
+  </div>
+</section>
 
     <section class="container dashboard-section">
       <div class="section-heading">

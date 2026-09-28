@@ -179,17 +179,107 @@
   </div>
 </section>
 
-    <section class="container dashboard-section">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">OVERVIEW</p>
-          <h2>Your workspace</h2>
-        </div>
+    <section class="mx-auto w-[calc(100%-28px)] max-w-[1180px] py-[34px] pb-4 min-[641px]:w-[calc(100%-40px)]">
+  <div class="mb-5 flex flex-col items-start justify-between gap-6 min-[641px]:flex-row min-[641px]:items-end">
+    <div>
+      <p class="mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]">
+        OVERVIEW
+      </p>
 
-        <p class="section-description">
-          A quick snapshot of what needs attention today.
-        </p>
+      <h2 class="m-0 text-[28px] font-extrabold tracking-[-0.035em] text-[#172033]">
+        Your workspace
+      </h2>
+    </div>
+
+    <p class="m-0 max-w-none text-sm text-[#6c7485] min-[641px]:max-w-[420px]">
+      A quick snapshot of what needs attention today.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 min-[641px]:grid-cols-2 min-[961px]:grid-cols-4">
+
+    <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
+      <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
+        01
       </div>
+
+      <div>
+        <p class="mb-1 m-0 text-xs text-[#6c7485]">
+          Active projects
+        </p>
+
+        <strong class="block text-[26px] leading-[1.1]">
+          3
+        </strong>
+
+        <span class="mt-1.5 block text-[10px] font-bold text-[#1ca76f]">
+          +1 this month
+        </span>
+      </div>
+    </article>
+
+    <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
+      <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
+        02
+      </div>
+
+      <div>
+        <p class="mb-1 m-0 text-xs text-[#6c7485]">
+          Tasks completed
+        </p>
+
+        <strong class="block text-[26px] leading-[1.1]">
+          18
+        </strong>
+
+        <span class="mt-1.5 block text-[10px] font-bold text-[#1ca76f]">
+          +6 this week
+        </span>
+      </div>
+    </article>
+
+    <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
+      <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
+        03
+      </div>
+
+      <div>
+        <p class="mb-1 m-0 text-xs text-[#6c7485]">
+          Quiz average
+        </p>
+
+        <strong class="block text-[26px] leading-[1.1]">
+          84%
+        </strong>
+
+        <span class="mt-1.5 block text-[10px] font-bold text-[#6c7485]">
+          Last 4 quizzes
+        </span>
+      </div>
+    </article>
+
+    <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
+      <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
+        04
+      </div>
+
+      <div>
+        <p class="mb-1 m-0 text-xs text-[#6c7485]">
+          Focus time
+        </p>
+
+        <strong class="block text-[26px] leading-[1.1]">
+          7.5h
+        </strong>
+
+        <span class="mt-1.5 block text-[10px] font-bold text-[#1ca76f]">
+          +12% vs last week
+        </span>
+      </div>
+    </article>
+
+  </div>
+</section>
 
       <div class="stats-grid">
 
@@ -234,111 +324,190 @@
 
     <section class="container dashboard-section" id="projects">
 
-      <div class="section-heading project-heading">
+  <div class="flex items-center justify-between gap-6 mb-5">
 
-        <div>
-          <p class="section-kicker">PROJECTS</p>
-          <h2>Current work</h2>
-        </div>
+    <div>
+      <p class="m-0 mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-purple-600">
+        PROJECTS
+      </p>
 
-        <div class="filter-group" aria-label="Project filters">
-          <button class="filter-button active" data-filter="all">
-            All
-          </button>
+      <h2 class="m-0 text-[28px] font-bold tracking-[-0.035em]">
+        Current work
+      </h2>
+    </div>
 
-          <button class="filter-button" data-filter="active">
-            Active
-          </button>
+    <div
+      class="inline-flex gap-1 p-1 border border-[#e5e9f2] rounded-xl bg-white"
+      aria-label="Project filters"
+    >
 
-          <button class="filter-button" data-filter="done">
-            Done
-          </button>
-        </div>
+      <button
+        class="filter-button active rounded-lg border-0 bg-[#f0f2f7] px-[11px] py-[7px] text-[12px] font-bold text-[#172033]"
+        data-filter="all"
+      >
+        All
+      </button>
 
-      </div>
+      <button
+        class="filter-button rounded-lg border-0 bg-transparent px-[11px] py-[7px] text-[12px] font-bold text-[#6c7485] hover:bg-[#f0f2f7] hover:text-[#172033]"
+        data-filter="active"
+      >
+        Active
+      </button>
+
+      <button
+        class="filter-button rounded-lg border-0 bg-transparent px-[11px] py-[7px] text-[12px] font-bold text-[#6c7485] hover:bg-[#f0f2f7] hover:text-[#172033]"
+        data-filter="done"
+      >
+        Done
+      </button>
+
+    </div>
+
+  </div>
 
       <div class="projects-grid" id="projectGrid">
 
-        <article class="project-card" data-status="active">
-          <div class="project-top">
-            <span class="badge badge-purple">Frontend</span>
-            <span class="project-status status-active">Active</span>
-          </div>
+        <article
+  class="rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]"
+  data-status="active"
+>
+  <div class="flex items-center justify-between gap-3">
+    <span
+      class="inline-flex min-h-[25px] items-center rounded-full bg-[#f0edff] px-[9px] text-[10px] font-extrabold text-[#6352ed]"
+    >
+      Frontend
+    </span>
 
-          <h3>Responsive Portfolio</h3>
+    <span
+      class="inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]"
+    >
+      Active
+    </span>
+  </div>
 
-          <p>
-            Create a polished portfolio with reusable components
-            and responsive layouts.
-          </p>
+  <h3 class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]">
+    Responsive Portfolio
+  </h3>
 
-          <div class="project-meta">
-            <span>Due Sep 21</span>
-            <span>72% complete</span>
-          </div>
+  <p class="min-h-[66px] m-0 text-[13px] text-[#6c7485]">
+    Create a polished portfolio with reusable components
+    and responsive layouts.
+  </p>
 
-          <div class="progress-track small">
-            <div class="progress-fill purple" style="width: 72%"></div>
-          </div>
+  <div class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]">
+    <span>Due Sep 21</span>
+    <span>72% complete</span>
+  </div>
 
-          <a class="text-link" href="#">
-            Open project →
-          </a>
-        </article>
+  <div class="h-[7px] overflow-hidden rounded-full bg-[#eceef4]">
+    <div
+      class="h-full rounded-full bg-[#6d5dfc]"
+      style="width: 72%"
+    ></div>
+  </div>
 
-        <article class="project-card" data-status="active">
-          <div class="project-top">
-            <span class="badge badge-blue">API</span>
-            <span class="project-status status-active">Active</span>
-          </div>
+  <a
+    class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]"
+    href="#"
+  >
+    Open project →
+  </a>
+</article>
 
-          <h3>Weather Dashboard</h3>
+        <article
+  class="rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]"
+  data-status="active"
+>
+  <div class="flex items-center justify-between gap-3">
+    <span
+      class="inline-flex min-h-[25px] items-center rounded-full bg-[#eaf3ff] px-[9px] text-[10px] font-extrabold text-[#2f78d6]"
+    >
+      API
+    </span>
 
-          <p>
-            Fetch remote data, handle loading states,
-            and present forecast information clearly.
-          </p>
+    <span
+      class="inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]"
+    >
+      Active
+    </span>
+  </div>
 
-          <div class="project-meta">
-            <span>Due Sep 28</span>
-            <span>45% complete</span>
-          </div>
+  <h3 class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]">
+    Weather Dashboard
+  </h3>
 
-          <div class="progress-track small">
-            <div class="progress-fill blue" style="width: 45%"></div>
-          </div>
+  <p class="min-h-[66px] m-0 text-[13px] text-[#6c7485]">
+    Fetch remote data, handle loading states,
+    and present forecast information clearly.
+  </p>
 
-          <a class="text-link" href="#">
-            Open project →
-          </a>
-        </article>
+  <div class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]">
+    <span>Due Sep 28</span>
+    <span>45% complete</span>
+  </div>
 
-        <article class="project-card" data-status="done">
-          <div class="project-top">
-            <span class="badge badge-green">JavaScript</span>
-            <span class="project-status status-done">Done</span>
-          </div>
+  <div class="h-[7px] overflow-hidden rounded-full bg-[#eceef4]">
+    <div
+      class="h-full rounded-full bg-[#3788ff]"
+      style="width: 45%"
+    ></div>
+  </div>
 
-          <h3>Task Manager</h3>
+  <a
+    class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]"
+    href="#"
+  >
+    Open project →
+  </a>
+</article>
 
-          <p>
-            Build a small CRUD interface with filtering,
-            local storage, and form validation.
-          </p>
+        <article
+  class="rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]"
+  data-status="done"
+>
+  <div class="flex items-center justify-between gap-3">
+    <span
+      class="inline-flex min-h-[25px] items-center rounded-full bg-[#e9f8f2] px-[9px] text-[10px] font-extrabold text-[#16875b]"
+    >
+      JavaScript
+    </span>
 
-          <div class="project-meta">
-            <span>Submitted Sep 7</span>
-            <span>100% complete</span>
-          </div>
+    <span
+      class="inline-flex min-h-[25px] items-center rounded-full bg-[#edf9f4] px-[9px] text-[10px] font-extrabold text-[#1ca76f]"
+    >
+      Done
+    </span>
+  </div>
 
-          <div class="progress-track small">
-            <div class="progress-fill green" style="width: 100%"></div>
-          </div>
+  <h3 class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]">
+    Task Manager
+  </h3>
 
-          <a class="text-link" href="#">
-            View submission →
-          </a>
-        </article>
+  <p class="min-h-[66px] m-0 text-[13px] text-[#6c7485]">
+    Build a small CRUD interface with filtering,
+    local storage, and form validation.
+  </p>
+
+  <div class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]">
+    <span>Submitted Sep 7</span>
+    <span>100% complete</span>
+  </div>
+
+  <div class="h-[7px] overflow-hidden rounded-full bg-[#eceef4]">
+    <div
+      class="h-full rounded-full bg-[#1ca76f]"
+      style="width: 100%"
+    ></div>
+  </div>
+
+  <a
+    class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]"
+    href="#"
+  >
+    View submission →
+  </a>
+</article>
 
       </div>
     </section>

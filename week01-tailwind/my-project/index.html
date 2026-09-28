@@ -1,27 +1,36 @@
-```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CampusFlow Dashboard</title>
 </head>
 
-<body>
+<body class="m-0 bg-[#f5f7fb] font-sans leading-[1.5] text-[#172033]">
 
-  <header class="sticky top-0 z-50 border-b border-[#e5e9f2]/90 bg-white/90 backdrop-blur-[14px]">
-    <div class="mx-auto flex min-h-[72px] w-[calc(100%-40px)] max-w-[1180px] items-center gap-7">
+  <header
+    class="sticky top-0 z-50 border-b border-[#e5e9f2]/90 bg-white/90 backdrop-blur-[14px]"
+  >
+    <div
+      class="mx-auto flex min-h-[72px] w-[calc(100%-40px)] max-w-[1180px] items-center gap-7"
+    >
 
-      <a class="inline-flex items-center gap-2.5 font-extrabold tracking-[-0.02em]" href="#">
-        <span class="grid h-[38px] w-[38px] place-items-center rounded-xl bg-gradient-to-br from-[#6d5dfc] to-[#8a7dff] text-[13px] text-white shadow-[0_8px_20px_rgba(109,93,252,0.28)]">
+      <a
+        class="inline-flex items-center gap-2.5 font-extrabold tracking-[-0.02em]"
+        href="#"
+      >
+        <span
+          class="grid h-[38px] w-[38px] place-items-center rounded-xl bg-gradient-to-br from-[#6d5dfc] to-[#8a7dff] text-[13px] text-white shadow-[0_8px_20px_rgba(109,93,252,0.28)]"
+        >
           CF
         </span>
 
         <span>CampusFlow</span>
       </a>
 
+
       <button
-        class="ml-auto grid h-[42px] w-[42px] place-items-center rounded-[10px] border-0 bg-transparent p-[9px] md:hidden"
+        class="ml-auto grid h-[42px] w-[42px] cursor-pointer place-items-center rounded-[10px] border-0 bg-transparent p-[9px] md:hidden"
         id="menuButton"
         aria-label="Toggle navigation"
         aria-expanded="false"
@@ -30,6 +39,7 @@
         <span class="my-[5px] block h-0.5 w-full rounded-full bg-[#172033]"></span>
         <span class="my-[5px] block h-0.5 w-full rounded-full bg-[#172033]"></span>
       </button>
+
 
       <nav
         class="absolute left-5 right-5 top-[72px] hidden flex-col items-stretch gap-1 rounded-[14px] border border-[#e5e9f2] bg-white p-2 shadow-[0_18px_50px_rgba(34,45,78,0.08)] md:static md:ml-[18px] md:flex md:flex-row md:items-center md:border-0 md:bg-transparent md:p-0 md:shadow-none"
@@ -64,23 +74,28 @@
         </a>
       </nav>
 
+
       <div class="ml-auto flex items-center gap-2.5 md:ml-auto">
-        <div class="grid h-[38px] w-[38px] place-items-center rounded-full bg-[#172033] text-xs font-extrabold text-white">
+        <div
+          class="grid h-[38px] w-[38px] place-items-center rounded-full bg-[#172033] text-xs font-extrabold text-white"
+        >
           AZ
         </div>
 
         <div class="grid gap-px max-md:hidden">
           <strong class="text-[13px]">Alex Student</strong>
-          <span class="text-[11px] text-[#6c7485]">Web Programming</span>
+          <span class="text-[11px] text-[#6c7485]">
+            Web Programming
+          </span>
         </div>
       </div>
 
     </div>
   </header>
 
+
   <main>
 
-    <!-- HERO -->
     <section
       class="bg-[radial-gradient(circle_at_15%_10%,rgba(109,93,252,0.14),transparent_34%),radial-gradient(circle_at_85%_0%,rgba(55,136,255,0.10),transparent_28%)] px-0 py-12 min-[961px]:py-16"
     >
@@ -89,20 +104,27 @@
       >
 
         <div>
-          <span class="mb-2.5 block text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]">
+          <span
+            class="mb-2.5 block text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]"
+          >
             MONDAY WORKSPACE
           </span>
 
-          <h1 class="m-0 max-w-[760px] text-[43px] font-extrabold leading-[0.98] tracking-[-0.055em] text-[#6d5dfc] min-[641px]:text-[clamp(42px,6vw,72px)]">
+          <h1
+            class="m-0 max-w-[760px] text-[43px] font-extrabold leading-[0.98] tracking-[-0.055em] text-[#6d5dfc] min-[641px]:text-[clamp(42px,6vw,72px)]"
+          >
             Build, learn, and ship something useful.
           </h1>
 
-          <p class="mt-6 max-w-[650px] text-base leading-[1.5] text-[#6c7485] min-[641px]:text-lg">
+          <p
+            class="mt-6 max-w-[650px] text-base leading-[1.5] text-[#6c7485] min-[641px]:text-lg"
+          >
             Track your current web-development tasks, upcoming deadlines,
             and project progress in one place.
           </p>
 
           <div class="mt-7 grid gap-3 min-[641px]:flex min-[641px]:flex-wrap">
+
             <a
               class="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#6d5dfc] px-[18px] text-sm font-bold text-white shadow-[0_12px_24px_rgba(109,93,252,0.24)] transition hover:-translate-y-px hover:bg-[#5547df] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-2 min-[641px]:w-auto"
               href="#projects"
@@ -116,16 +138,21 @@
             >
               Open resources
             </a>
+
           </div>
         </div>
 
-        <aside class="rounded-[22px] border border-white/60 bg-white/[0.78] p-6 shadow-[0_18px_50px_rgba(34,45,78,0.08)] backdrop-blur-[10px]">
 
+        <aside
+          class="rounded-[22px] border border-white/60 bg-white/[0.78] p-6 shadow-[0_18px_50px_rgba(34,45,78,0.08)] backdrop-blur-[10px]"
+        >
           <p class="mb-[18px] m-0 text-[13px] font-bold text-[#6c7485]">
             This week
           </p>
 
-          <div class="mb-[9px] flex items-center justify-between gap-4 text-[13px]">
+          <div
+            class="mb-[9px] flex items-center justify-between gap-4 text-[13px]"
+          >
             <span class="text-[#6c7485]">Course progress</span>
             <strong>68%</strong>
           </div>
@@ -139,21 +166,27 @@
 
           <div class="mt-6 grid grid-cols-1 gap-3 min-[641px]:grid-cols-3">
 
-            <div class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center">
+            <div
+              class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center"
+            >
               <strong class="block text-[21px]">4</strong>
               <span class="mt-[3px] block text-[10px] text-[#6c7485]">
                 Open tasks
               </span>
             </div>
 
-            <div class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center">
+            <div
+              class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center"
+            >
               <strong class="block text-[21px]">2</strong>
               <span class="mt-[3px] block text-[10px] text-[#6c7485]">
                 Due soon
               </span>
             </div>
 
-            <div class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center">
+            <div
+              class="rounded-[14px] bg-[#f8fafc] px-2.5 py-4 text-center"
+            >
               <strong class="block text-[21px]">7</strong>
               <span class="mt-[3px] block text-[10px] text-[#6c7485]">
                 Completed
@@ -166,79 +199,162 @@
       </div>
     </section>
 
-    <section class="mx-auto w-[calc(100%-28px)] max-w-[1180px] py-[34px] pb-4 min-[641px]:w-[calc(100%-40px)]">
 
-      <div class="mb-5 flex flex-col items-start justify-between gap-6 min-[641px]:flex-row min-[641px]:items-end">
+    <section
+      class="mx-auto w-[calc(100%-28px)] max-w-[1180px] py-6 min-[641px]:w-[calc(100%-40px)]"
+    >
+      <div
+        class="flex items-start gap-4 rounded-[18px] border border-[#ddd8ff] bg-[#f7f5ff] p-5 shadow-[0_10px_30px_rgba(109,93,252,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_35px_rgba(109,93,252,0.10)]"
+      >
+        <div
+          class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#6d5dfc] text-sm font-extrabold text-white"
+          aria-hidden="true"
+        >
+          !
+        </div>
 
         <div>
-          <p class="mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]">
+          <h2 class="m-0 text-[14px] font-extrabold text-[#172033]">
+            Study tip
+          </h2>
+
+          <p class="m-0 mt-1 text-[12px] leading-[1.5] text-[#6c7485]">
+            Use browser DevTools while working on your project.
+            Compare computed styles to understand how each Tailwind utility
+            affects the final layout.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <section
+      class="mx-auto w-[calc(100%-28px)] max-w-[1180px] py-[34px] pb-4 min-[641px]:w-[calc(100%-40px)]"
+    >
+
+      <div
+        class="mb-5 flex flex-col items-start justify-between gap-6 min-[641px]:flex-row min-[641px]:items-end"
+      >
+        <div>
+          <p
+            class="mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]"
+          >
             OVERVIEW
           </p>
 
-          <h2 class="m-0 text-[28px] font-extrabold tracking-[-0.035em] text-[#172033]">
+          <h2
+            class="m-0 text-[28px] font-extrabold tracking-[-0.035em] text-[#172033]"
+          >
             Your workspace
           </h2>
         </div>
 
-        <p class="m-0 max-w-none text-sm text-[#6c7485] min-[641px]:max-w-[420px]">
+        <p
+          class="m-0 max-w-none text-sm text-[#6c7485] min-[641px]:max-w-[420px]"
+        >
           A quick snapshot of what needs attention today.
         </p>
-
       </div>
 
-      <div class="grid grid-cols-1 gap-4 min-[641px]:grid-cols-2 min-[961px]:grid-cols-4">
 
-        <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
-          <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
-            01
+      <div
+        class="grid grid-cols-1 gap-4 min-[641px]:grid-cols-2 min-[961px]:grid-cols-4"
+      >
+
+        <article
+          class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]"
+        >
+          <div
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]"
+          >
+            AP
           </div>
 
           <div>
-            <p class="mb-1 m-0 text-xs text-[#6c7485]">Active projects</p>
-            <strong class="block text-[26px] leading-[1.1]">3</strong>
-            <span class="mt-1.5 block text-[10px] font-bold text-[#1ca76f]">
+            <p class="m-0 mb-1 text-xs text-[#6c7485]">
+              Active projects
+            </p>
+
+            <strong class="block text-[26px] leading-[1.1]">
+              3
+            </strong>
+
+            <span class="mt-[7px] block text-[10px] font-bold text-[#1ca76f]">
               +1 this month
             </span>
           </div>
         </article>
 
-        <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
-          <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
-            02
+
+        <article
+          class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]"
+        >
+          <div
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#eaf3ff] text-[11px] font-extrabold text-[#3788ff]"
+          >
+            TC
           </div>
 
           <div>
-            <p class="mb-1 m-0 text-xs text-[#6c7485]">Tasks completed</p>
-            <strong class="block text-[26px] leading-[1.1]">18</strong>
-            <span class="mt-1.5 block text-[10px] font-bold text-[#1ca76f]">
+            <p class="m-0 mb-1 text-xs text-[#6c7485]">
+              Tasks completed
+            </p>
+
+            <strong class="block text-[26px] leading-[1.1]">
+              18
+            </strong>
+
+            <span class="mt-[7px] block text-[10px] font-bold text-[#1ca76f]">
               +6 this week
             </span>
           </div>
         </article>
 
-        <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
-          <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
-            03
+
+        <article
+          class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]"
+        >
+          <div
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#e9f8f2] text-[11px] font-extrabold text-[#1ca76f]"
+          >
+            QA
           </div>
 
           <div>
-            <p class="mb-1 m-0 text-xs text-[#6c7485]">Quiz average</p>
-            <strong class="block text-[26px] leading-[1.1]">84%</strong>
-            <span class="mt-1.5 block text-[10px] font-bold text-[#6c7485]">
+            <p class="m-0 mb-1 text-xs text-[#6c7485]">
+              Quiz average
+            </p>
+
+            <strong class="block text-[26px] leading-[1.1]">
+              84%
+            </strong>
+
+            <span class="mt-[7px] block text-[10px] font-bold text-[#6c7485]">
               Last 4 quizzes
             </span>
           </div>
         </article>
 
-        <article class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]">
-          <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#f0edff] text-[11px] font-extrabold text-[#6d5dfc]">
-            04
+
+        <article
+          class="flex gap-3.5 rounded-[18px] border border-[#e5e9f2] bg-white p-5 shadow-[0_10px_30px_rgba(34,45,78,0.04)]"
+        >
+          <div
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#fff5de] text-[11px] font-extrabold text-[#aa7416]"
+          >
+            FT
           </div>
 
           <div>
-            <p class="mb-1 m-0 text-xs text-[#6c7485]">Focus time</p>
-            <strong class="block text-[26px] leading-[1.1]">7.5h</strong>
-            <span class="mt-1.5 block text-[10px] font-bold text-[#1ca76f]">
+            <p class="m-0 mb-1 text-xs text-[#6c7485]">
+              Focus time
+            </p>
+
+            <strong class="block text-[26px] leading-[1.1]">
+              7.5h
+            </strong>
+
+            <span class="mt-[7px] block text-[10px] font-bold text-[#1ca76f]">
               +12% vs last week
             </span>
           </div>
@@ -247,22 +363,29 @@
       </div>
     </section>
 
+
     <section
       class="mx-auto w-[calc(100%-28px)] max-w-[1180px] py-[34px] min-[641px]:w-[calc(100%-40px)]"
       id="projects"
     >
 
-      <div class="mb-5 flex flex-col items-start justify-between gap-6 min-[641px]:flex-row min-[641px]:items-end">
-
+      <div
+        class="mb-5 flex flex-col items-start justify-between gap-6 min-[641px]:flex-row min-[641px]:items-end"
+      >
         <div>
-          <p class="m-0 mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]">
+          <p
+            class="m-0 mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]"
+          >
             PROJECTS
           </p>
 
-          <h2 class="m-0 text-[28px] font-bold tracking-[-0.035em]">
+          <h2
+            class="m-0 text-[28px] font-bold tracking-[-0.035em]"
+          >
             Current work
           </h2>
         </div>
+
 
         <div
           class="inline-flex gap-1 rounded-xl border border-[#e5e9f2] bg-white p-1"
@@ -270,29 +393,29 @@
         >
 
           <button
-            class="filter-button active rounded-lg border-0 bg-[#f0f2f7] px-[11px] py-[7px] text-[12px] font-bold text-[#172033]"
+            class="filter-button active cursor-pointer rounded-lg border-0 bg-[#f0f2f7] px-[11px] py-[7px] text-[12px] font-bold text-[#172033] transition-all duration-150 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
             data-filter="all"
           >
             All
           </button>
 
           <button
-            class="filter-button rounded-lg border-0 bg-transparent px-[11px] py-[7px] text-[12px] font-bold text-[#6c7485] hover:bg-[#f0f2f7] hover:text-[#172033]"
+            class="filter-button cursor-pointer rounded-lg border-0 bg-transparent px-[11px] py-[7px] text-[12px] font-bold text-[#6c7485] transition-all duration-150 hover:scale-105 hover:bg-[#f0f2f7] hover:text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
             data-filter="active"
           >
             Active
           </button>
 
           <button
-            class="filter-button rounded-lg border-0 bg-transparent px-[11px] py-[7px] text-[12px] font-bold text-[#6c7485] hover:bg-[#f0f2f7] hover:text-[#172033]"
+            class="filter-button cursor-pointer rounded-lg border-0 bg-transparent px-[11px] py-[7px] text-[12px] font-bold text-[#6c7485] transition-all duration-150 hover:scale-105 hover:bg-[#f0f2f7] hover:text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
             data-filter="done"
           >
             Done
           </button>
 
         </div>
-
       </div>
+
 
       <div
         class="grid grid-cols-1 gap-4 min-[641px]:grid-cols-2 min-[961px]:grid-cols-3"
@@ -303,232 +426,374 @@
           class="project-card rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]"
           data-status="active"
         >
-          <div class="flex items-center justify-between gap-3">
 
-            <span class="inline-flex min-h-[25px] items-center rounded-full bg-[#f0edff] px-[9px] text-[10px] font-extrabold text-[#6352ed]">
+          <div class="flex items-center justify-between gap-3">
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#f0edff] px-[9px] text-[10px] font-extrabold text-[#6352ed]"
+            >
               Frontend
             </span>
 
-            <span class="inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]">
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]"
+            >
               Active
             </span>
-
           </div>
 
-          <h3 class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]">
+          <h3
+            class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]"
+          >
             Responsive Portfolio
           </h3>
 
           <p class="min-h-[66px] m-0 text-[13px] text-[#6c7485]">
-            Create a polished portfolio with reusable components
-            and responsive layouts.
+            Create a polished portfolio with reusable components and responsive layouts.
           </p>
 
-          <div class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]">
+          <div
+            class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]"
+          >
             <span>Due Sep 21</span>
             <span>72% complete</span>
           </div>
 
           <div class="h-[7px] overflow-hidden rounded-full bg-[#eceef4]">
-            <div class="h-full rounded-full bg-[#6d5dfc]" style="width: 72%"></div>
+            <div
+              class="h-full rounded-full bg-[#6d5dfc] transition-all duration-300 hover:brightness-110"
+              style="width: 72%"
+            ></div>
           </div>
 
           <a
-            class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]"
+            class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
             href="#"
           >
             Open project →
           </a>
+
         </article>
+
 
         <article
           class="project-card rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]"
           data-status="active"
         >
-          <div class="flex items-center justify-between gap-3">
 
-            <span class="inline-flex min-h-[25px] items-center rounded-full bg-[#eaf3ff] px-[9px] text-[10px] font-extrabold text-[#2f78d6]">
+          <div class="flex items-center justify-between gap-3">
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#eaf3ff] px-[9px] text-[10px] font-extrabold text-[#2f78d6]"
+            >
               API
             </span>
 
-            <span class="inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]">
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]"
+            >
               Active
             </span>
-
           </div>
 
-          <h3 class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]">
+          <h3
+            class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]"
+          >
             Weather Dashboard
           </h3>
 
           <p class="min-h-[66px] m-0 text-[13px] text-[#6c7485]">
-            Fetch remote data, handle loading states,
-            and present forecast information clearly.
+            Fetch remote data, handle loading states, and present forecast information clearly.
           </p>
 
-          <div class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]">
+          <div
+            class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]"
+          >
             <span>Due Sep 28</span>
             <span>45% complete</span>
           </div>
 
           <div class="h-[7px] overflow-hidden rounded-full bg-[#eceef4]">
-            <div class="h-full rounded-full bg-[#3788ff]" style="width: 45%"></div>
+            <div
+              class="h-full rounded-full bg-[#3788ff] transition-all duration-300 hover:brightness-110"
+              style="width: 45%"
+            ></div>
           </div>
 
           <a
-            class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]"
+            class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
             href="#"
           >
             Open project →
           </a>
+
         </article>
+
 
         <article
           class="project-card rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]"
           data-status="done"
         >
-          <div class="flex items-center justify-between gap-3">
 
-            <span class="inline-flex min-h-[25px] items-center rounded-full bg-[#e9f8f2] px-[9px] text-[10px] font-extrabold text-[#16875b]">
+          <div class="flex items-center justify-between gap-3">
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#e9f8f2] px-[9px] text-[10px] font-extrabold text-[#16875b]"
+            >
               JavaScript
             </span>
 
-            <span class="inline-flex min-h-[25px] items-center rounded-full bg-[#edf9f4] px-[9px] text-[10px] font-extrabold text-[#1ca76f]">
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#edf9f4] px-[9px] text-[10px] font-extrabold text-[#1ca76f]"
+            >
               Done
             </span>
-
           </div>
 
-          <h3 class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]">
+          <h3
+            class="mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]"
+          >
             Task Manager
           </h3>
 
           <p class="min-h-[66px] m-0 text-[13px] text-[#6c7485]">
-            Build a small CRUD interface with filtering,
-            local storage, and form validation.
+            Build a small CRUD interface with filtering, local storage, and form validation.
           </p>
 
-          <div class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]">
+          <div
+            class="mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]"
+          >
             <span>Submitted Sep 7</span>
             <span>100% complete</span>
           </div>
 
           <div class="h-[7px] overflow-hidden rounded-full bg-[#eceef4]">
-            <div class="h-full rounded-full bg-[#1ca76f]" style="width: 100%"></div>
+            <div
+              class="h-full rounded-full bg-[#1ca76f] transition-all duration-300 hover:brightness-110"
+              style="width: 100%"
+            ></div>
           </div>
 
           <a
-            class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]"
+            class="mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
             href="#"
           >
             View submission →
           </a>
+
         </article>
 
       </div>
     </section>
 
-    <section class="container two-column-section">
 
-      <section class="panel" id="deadlines">
+    <section
+      class="mx-auto grid w-[calc(100%-28px)] max-w-[1180px] grid-cols-1 gap-[18px] py-[34px] pb-16 min-[641px]:w-[calc(100%-40px)] min-[961px]:grid-cols-[1.45fr_0.75fr]"
+    >
 
-        <div class="panel-heading">
+      <section
+        class="rounded-[18px] border border-[#e5e9f2] bg-white p-6"
+        id="deadlines"
+      >
+
+        <div class="mb-5 flex items-center justify-between gap-6">
           <div>
-            <p class="section-kicker">DEADLINES</p>
-            <h2>Coming up</h2>
+            <p
+              class="m-0 mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]"
+            >
+              DEADLINES
+            </p>
+
+            <h2
+              class="m-0 text-[28px] font-bold tracking-[-0.035em]"
+            >
+              Coming up
+            </h2>
           </div>
 
-          <a class="text-link" href="#">See all</a>
+          <a
+            class="inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
+            href="#"
+          >
+            See all
+          </a>
         </div>
 
-        <div class="deadline-list">
 
-          <article class="deadline-item">
-            <div class="date-box">
-              <strong>18</strong>
-              <span>SEP</span>
+        <div class="grid gap-1">
+
+          <article
+            class="grid grid-cols-[auto_1fr_auto] items-center gap-3.5 border-b border-[#e5e9f2] px-2 py-3.5 last:border-b-0 max-[640px]:grid-cols-[auto_1fr]"
+          >
+            <div
+              class="grid min-h-[50px] w-[46px] place-content-center place-items-center rounded-xl bg-[#f8fafc]"
+            >
+              <strong class="text-[17px] leading-none">18</strong>
+              <span class="mt-1 text-[9px] font-extrabold text-[#6c7485]">
+                SEP
+              </span>
             </div>
 
-            <div class="deadline-copy">
-              <strong>Tailwind migration</strong>
-              <span>Web Programming · 23:59</span>
+            <div class="grid gap-[3px]">
+              <strong class="text-[13px]">Tailwind migration</strong>
+              <span class="text-[11px] text-[#6c7485]">
+                Web Programming · 23:59
+              </span>
             </div>
 
-            <span class="badge badge-red">2 days</span>
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#fdeeee] px-[9px] text-[10px] font-extrabold text-[#c64444] max-[640px]:col-start-2 max-[640px]:justify-self-start"
+            >
+              2 days
+            </span>
           </article>
 
-          <article class="deadline-item">
-            <div class="date-box">
-              <strong>21</strong>
-              <span>SEP</span>
+
+          <article
+            class="grid grid-cols-[auto_1fr_auto] items-center gap-3.5 border-b border-[#e5e9f2] px-2 py-3.5 last:border-b-0 max-[640px]:grid-cols-[auto_1fr]"
+          >
+            <div
+              class="grid min-h-[50px] w-[46px] place-content-center place-items-center rounded-xl bg-[#f8fafc]"
+            >
+              <strong class="text-[17px] leading-none">21</strong>
+              <span class="mt-1 text-[9px] font-extrabold text-[#6c7485]">
+                SEP
+              </span>
             </div>
 
-            <div class="deadline-copy">
-              <strong>Portfolio checkpoint</strong>
-              <span>Web Programming · 18:00</span>
+            <div class="grid gap-[3px]">
+              <strong class="text-[13px]">Portfolio checkpoint</strong>
+              <span class="text-[11px] text-[#6c7485]">
+                Web Programming · 18:00
+              </span>
             </div>
 
-            <span class="badge badge-yellow">5 days</span>
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#fff5de] px-[9px] text-[10px] font-extrabold text-[#aa7416] max-[640px]:col-start-2 max-[640px]:justify-self-start"
+            >
+              5 days
+            </span>
           </article>
 
-          <article class="deadline-item">
-            <div class="date-box">
-              <strong>28</strong>
-              <span>SEP</span>
+
+          <article
+            class="grid grid-cols-[auto_1fr_auto] items-center gap-3.5 border-b border-[#e5e9f2] px-2 py-3.5 last:border-b-0 max-[640px]:grid-cols-[auto_1fr]"
+          >
+            <div
+              class="grid min-h-[50px] w-[46px] place-content-center place-items-center rounded-xl bg-[#f8fafc]"
+            >
+              <strong class="text-[17px] leading-none">28</strong>
+              <span class="mt-1 text-[9px] font-extrabold text-[#6c7485]">
+                SEP
+              </span>
             </div>
 
-            <div class="deadline-copy">
-              <strong>Weather Dashboard</strong>
-              <span>Web Programming · 23:59</span>
+            <div class="grid gap-[3px]">
+              <strong class="text-[13px]">Weather Dashboard</strong>
+              <span class="text-[11px] text-[#6c7485]">
+                Web Programming · 23:59
+              </span>
             </div>
 
-            <span class="badge badge-gray">12 days</span>
+            <span
+              class="inline-flex min-h-[25px] items-center rounded-full bg-[#f1f3f6] px-[9px] text-[10px] font-extrabold text-[#6f7788] max-[640px]:col-start-2 max-[640px]:justify-self-start"
+            >
+              12 days
+            </span>
           </article>
 
         </div>
       </section>
 
-      <aside class="panel resource-panel" id="resources">
 
-        <p class="section-kicker">RESOURCES</p>
+      <aside
+        class="rounded-[18px] border border-[#e5e9f2] bg-white p-6"
+        id="resources"
+      >
 
-        <h2>Useful links</h2>
+        <p
+          class="m-0 mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]"
+        >
+          RESOURCES
+        </p>
 
-        <p class="resource-intro">
+        <h2
+          class="m-0 text-[28px] font-bold tracking-[-0.035em]"
+        >
+          Useful links
+        </h2>
+
+        <p class="my-2 mb-[18px] text-[13px] text-[#6c7485]">
           Keep these close while working through the project.
         </p>
 
-        <div class="resource-list">
 
-          <a class="resource-link" href="#">
-            <span class="resource-number">01</span>
-            <span>
-              <strong>Course repository</strong>
-              <small>Starter code and weekly tasks</small>
+        <div class="grid gap-2">
+
+          <a
+            class="flex items-center gap-3 rounded-[13px] border border-[#e5e9f2] p-3 transition duration-[160ms] ease-in-out hover:border-[#cacfe0] hover:bg-[#f8fafc] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
+            href="#"
+          >
+            <span
+              class="grid h-[34px] w-[34px] place-items-center rounded-[10px] bg-[#f0edff] text-[10px] font-extrabold text-[#6d5dfc]"
+            >
+              01
+            </span>
+
+            <span class="grid gap-0.5">
+              <strong class="text-[12px]">Course repository</strong>
+              <small class="text-[10px] text-[#6c7485]">
+                Starter code and weekly tasks
+              </small>
             </span>
           </a>
 
-          <a class="resource-link" href="#">
-            <span class="resource-number">02</span>
-            <span>
-              <strong>Reference notes</strong>
-              <small>Quick examples and explanations</small>
+
+          <a
+            class="flex items-center gap-3 rounded-[13px] border border-[#e5e9f2] p-3 transition duration-[160ms] ease-in-out hover:border-[#cacfe0] hover:bg-[#f8fafc] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
+            href="#"
+          >
+            <span
+              class="grid h-[34px] w-[34px] place-items-center rounded-[10px] bg-[#f0edff] text-[10px] font-extrabold text-[#6d5dfc]"
+            >
+              02
+            </span>
+
+            <span class="grid gap-0.5">
+              <strong class="text-[12px]">Reference notes</strong>
+              <small class="text-[10px] text-[#6c7485]">
+                Quick examples and explanations
+              </small>
             </span>
           </a>
 
-          <a class="resource-link" href="#">
-            <span class="resource-number">03</span>
-            <span>
-              <strong>Submission guide</strong>
-              <small>Checklist before you submit</small>
+
+          <a
+            class="flex items-center gap-3 rounded-[13px] border border-[#e5e9f2] p-3 transition duration-[160ms] ease-in-out hover:border-[#cacfe0] hover:bg-[#f8fafc] focus:outline-none focus:ring-2 focus:ring-[#6d5dfc] focus:ring-offset-1"
+            href="#"
+          >
+            <span
+              class="grid h-[34px] w-[34px] place-items-center rounded-[10px] bg-[#f0edff] text-[10px] font-extrabold text-[#6d5dfc]"
+            >
+              03
+            </span>
+
+            <span class="grid gap-0.5">
+              <strong class="text-[12px]">Submission guide</strong>
+              <small class="text-[10px] text-[#6c7485]">
+                Checklist before you submit
+              </small>
             </span>
           </a>
 
         </div>
 
-        <div class="tip-box">
-          <strong>Tip</strong>
-          <p>
+
+        <div
+          class="mt-[18px] rounded-[13px] border border-[#f3e4b6] bg-[#fff8e8] p-3.5"
+        >
+          <strong class="text-[11px] text-[#9a6c16]">
+            Tip
+          </strong>
+
+          <p class="m-0 mt-1 text-[11px] text-[#735d34]">
             Use browser DevTools while migrating the page.
             Compare computed styles before and after each change.
           </p>
@@ -540,12 +805,16 @@
 
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
+
+  <footer class="border-t border-[#e5e9f2] bg-white">
+    <div
+      class="mx-auto flex min-h-[74px] w-[calc(100%-28px)] max-w-[1180px] items-center justify-between gap-5 text-[11px] text-[#6c7485] min-[641px]:w-[calc(100%-40px)] max-[640px]:min-h-0 max-[640px]:flex-col max-[640px]:items-start max-[640px]:py-[18px]"
+    >
       <span>CampusFlow · Web Programming</span>
       <span>Starter project for CSS → Tailwind migration</span>
     </div>
   </footer>
+
 
   <script type="module" src="/src/app.js"></script>
 

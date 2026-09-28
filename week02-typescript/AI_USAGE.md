@@ -1,38 +1,25 @@
-# Individuālā refleksija
+# Mākslīgā intelekta izmantošana
 
-Aizpildiet šo daļu individuāli nodarbības beigās, **neizmantojot mākslīgā intelekta rīkus**.
+**Vārds, uzvārds:**  Nikita Sevcenko
+**Izmantotais(-ie) MI rīks(-i):**  ChatGPT
 
-Ieteicamais kopējais apjoms: **aptuveni 200–300 vārdi**.
+## Kam es izmantoju mākslīgo intelektu?
 
----
+- Lai saprastu, kā pārveidot CampusFlow projektu no statiskiem HTML datiem uz datiem, kas tiek glabāti TypeScript objektos un masīvos.
+- Lai atrastu un izskaidrotu kļūdas kodā un saprastu, kāpēc konkrēta TypeScript vai Tailwindcss nedarbojās kopā.
 
-## 1. Ko deva tipi?
+## Kuru kodu vai konfigurāciju būtiskā apjomā ģenerēja mākslīgais intelekts?
 
-Savā formulējumā paskaidrojiet, kāda ir atšķirība starp JavaScript un TypeScript.
+- MI palīdzēja izveidot dažus TypeScript koda piemērus datu struktūrām un DOM elementu ģenerēšanai, kā arī ieteica Tailwind klašu kombinācijas.
 
-Aprakstiet **vienu konkrētu kļūdu**, ko TypeScript jums parādīja šī darba laikā. Ko kods darīja nepareizi, un kā jūs to izlabojāt?
+## Kuru kodu vai konfigurāciju es uzrakstīju pats/pati vai būtiski pārveidoju?
 
----
+- Es arī pielāgoju projektu un termiņu datus filtrēšanas funkcionalitāti.
 
-## 2. `null` un `querySelector`
+## Viens MI ieteikums, kuru es noraidīju vai izmainīju
 
-Kāpēc TypeScript uzskata, ka `document.querySelector(...)` rezultāts var būt `null`?
+Īsi paskaidrojiet savu izvēli: MI ieteica daļu HTML struktūras un Tailwind klašu pārveidot vairāk, nekā bija nepieciešams. Es šo ieteikumu neizmantoju pilnībā, jo uzdevumā bija svarīgi saglabāt iepriekšējā CampusFlow projekta dizainu un funkcionalitāti.
 
-Parādiet, kā jūs šo gadījumu apstrādājāt savā kodā, un paskaidrojiet, kāpēc izvēlējāties tieši šo veidu.
+## Viena lieta, kuru es pārbaudīju pats/pati, nevis vienkārši uzticējos MI atbildei
 
----
-
-## 3. Dati no ārpuses
-
-`localStorage` saturu var izmainīt jebkurš lietotājs caur DevTools.
-
-Paskaidrojiet:
-
-- kāpēc `JSON.parse` rezultātam nevar vienkārši uzticēties, pat ja kodā tam ir norādīts tips;
-- kāpēc lietotāja tekstu nedrīkst ievietot lapā ar `innerHTML`.
-
----
-
-## 4. Jūsu vērtējums
-
-Aprakstiet vienu situāciju, kurā TypeScript, jūsuprāt, ir lieks, un vienu, kurā bez tā būtu grūti iztikt. Pamatojiet.
+Īsi paskaidrojiet, ko un kā jūs pārbaudījāt: Es arī pārbaudīju, vai projektu un termiņu dati tiek attēloti pareizi un vai filtrēšanas funkcionalitāte darbojas pēc TypeScript pārveidošanas.

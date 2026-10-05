@@ -3,6 +3,7 @@ import "./styles.css";
 import {
   fetchProjects,
   fetchDeadlines,
+  fetchWeather,
 } from "./api";
 
 import {
@@ -17,13 +18,15 @@ import {
 
 import type {
   Category,
+  CurrentWeather,
   Deadline,
   LoadState,
   Project,
   ProjectStatus,
 } from "./types";
 
-type ProjectFilter = ProjectStatus | "all";
+type ProjectFilter =
+  ProjectStatus | "all";
 
 const LOCAL_PROJECTS_KEY =
   "campusflow.week03.localProjects";
@@ -39,6 +42,10 @@ let projectsState: LoadState<Project[]> = {
 };
 
 let deadlinesState: LoadState<Deadline[]> = {
+  status: "loading",
+};
+
+let weatherState: LoadState<CurrentWeather> = {
   status: "loading",
 };
 
@@ -102,7 +109,8 @@ const projectProgress =
     "#projectProgress"
   );
 
-let currentFilter: ProjectFilter = "all";
+let currentFilter: ProjectFilter =
+  "all";
 
 function isProjectFilter(
   value: string | undefined
@@ -157,7 +165,9 @@ function saveLocalProjects(
 ): void {
   localStorage.setItem(
     LOCAL_PROJECTS_KEY,
-    JSON.stringify(projectsToSave)
+    JSON.stringify(
+      projectsToSave
+    )
   );
 }
 
@@ -167,7 +177,8 @@ function updateProjectFormState(): void {
   }
 
   const isReady =
-    projectsState.status === "success";
+    projectsState.status ===
+    "success";
 
   const controls =
     projectForm.querySelectorAll<
@@ -179,15 +190,19 @@ function updateProjectFormState(): void {
       "input, textarea, select, button"
     );
 
-  controls.forEach((control) => {
-    control.disabled = !isReady;
-  });
+  controls.forEach(
+    (control) => {
+      control.disabled =
+        !isReady;
+    }
+  );
 }
 
 function renderAll(): void {
   if (overviewGrid) {
     renderOverview(
       projectsState,
+      weatherState,
       overviewGrid
     );
   }
@@ -220,7 +235,8 @@ function showFieldError(
     );
 
   if (error) {
-    error.textContent = message;
+    error.textContent =
+      message;
   }
 }
 
@@ -301,6 +317,34 @@ async function loadDeadlines(): Promise<void> {
   renderAll();
 }
 
+async function loadWeather(): Promise<void> {
+  weatherState = {
+    status: "loading",
+  };
+
+  renderAll();
+
+  try {
+    const weather =
+      await fetchWeather();
+
+    weatherState = {
+      status: "success",
+      data: weather,
+    };
+  } catch (error) {
+    weatherState = {
+      status: "error",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to load weather.",
+    };
+  }
+
+  renderAll();
+}
+
 window.addEventListener(
   "campusflow:retry-projects",
   () => {
@@ -315,8 +359,16 @@ window.addEventListener(
   }
 );
 
+window.addEventListener(
+  "campusflow:retry-weather",
+  () => {
+    void loadWeather();
+  }
+);
+
 void loadProjects();
 void loadDeadlines();
+void loadWeather();
 
 if (menuButton && mainNav) {
   menuButton.addEventListener(
@@ -345,50 +397,52 @@ const inactiveFilterClasses = [
   "text-[#6c7485]",
 ];
 
-filterButtons.forEach((button) => {
-  button.addEventListener(
-    "click",
-    () => {
-      const selectedFilter =
-        button.dataset.filter;
+filterButtons.forEach(
+  (button) => {
+    button.addEventListener(
+      "click",
+      () => {
+        const selectedFilter =
+          button.dataset.filter;
 
-      if (
-        !isProjectFilter(
-          selectedFilter
-        )
-      ) {
-        return;
-      }
-
-      currentFilter =
-        selectedFilter;
-
-      filterButtons.forEach(
-        (item) => {
-          item.classList.remove(
-            "active",
-            ...activeFilterClasses
-          );
-
-          item.classList.add(
-            ...inactiveFilterClasses
-          );
+        if (
+          !isProjectFilter(
+            selectedFilter
+          )
+        ) {
+          return;
         }
-      );
 
-      button.classList.remove(
-        ...inactiveFilterClasses
-      );
+        currentFilter =
+          selectedFilter;
 
-      button.classList.add(
-        "active",
-        ...activeFilterClasses
-      );
+        filterButtons.forEach(
+          (item) => {
+            item.classList.remove(
+              "active",
+              ...activeFilterClasses
+            );
 
-      renderAll();
-    }
-  );
-});
+            item.classList.add(
+              ...inactiveFilterClasses
+            );
+          }
+        );
+
+        button.classList.remove(
+          ...inactiveFilterClasses
+        );
+
+        button.classList.add(
+          "active",
+          ...activeFilterClasses
+        );
+
+        renderAll();
+      }
+    );
+  }
+);
 
 if (
   projectForm &&

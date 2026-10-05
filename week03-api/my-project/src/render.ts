@@ -1,5 +1,6 @@
 import type {
   Category,
+  CurrentWeather,
   Deadline,
   LoadState,
   Project,
@@ -24,6 +25,7 @@ const categoryColors: Record<
 
 export function renderOverview(
   projectsState: LoadState<Project[]>,
+  weatherState: LoadState<CurrentWeather>,
   container: HTMLElement
 ): void {
   container.replaceChildren();
@@ -31,7 +33,9 @@ export function renderOverview(
   let projectsValue = "–";
   let activeValue = "–";
   let completedValue = "–";
-  let progressValue = "–";
+  let weatherValue = "–";
+  let weatherDescription =
+    "Rīga now";
 
   if (
     projectsState.status ===
@@ -40,7 +44,6 @@ export function renderOverview(
     projectsValue = "…";
     activeValue = "…";
     completedValue = "…";
-    progressValue = "…";
   }
 
   if (
@@ -67,19 +70,6 @@ export function renderOverview(
           "done"
       ).length;
 
-    const averageProgress =
-      totalProjects === 0
-        ? 0
-        : Math.round(
-            projects.reduce(
-              (total, project) =>
-                total +
-                project.progress,
-              0
-            ) /
-              totalProjects
-          );
-
     projectsValue =
       String(totalProjects);
 
@@ -90,9 +80,39 @@ export function renderOverview(
       String(
         completedProjects
       );
+  }
 
-    progressValue =
-      `${averageProgress}%`;
+  if (
+    weatherState.status ===
+    "loading"
+  ) {
+    weatherValue = "…";
+    weatherDescription =
+      "Loading weather";
+  }
+
+  if (
+    weatherState.status ===
+    "success"
+  ) {
+    weatherValue =
+      `${Math.round(
+        weatherState.data.temperature
+      )}°C`;
+
+    weatherDescription =
+      `Wind ${Math.round(
+        weatherState.data.windSpeed
+      )} km/h`;
+  }
+
+  if (
+    weatherState.status ===
+    "error"
+  ) {
+    weatherValue = "–";
+    weatherDescription =
+      "Weather unavailable";
   }
 
   const statistics = [
@@ -115,10 +135,10 @@ export function renderOverview(
         "Finished projects",
     },
     {
-      label: "Progress",
-      value: progressValue,
+      label: "Rīga now",
+      value: weatherValue,
       description:
-        "Average progress",
+        weatherDescription,
     },
   ];
 
@@ -170,6 +190,41 @@ export function renderOverview(
         value,
         description
       );
+
+      if (
+        statistic.label ===
+          "Rīga now" &&
+        weatherState.status ===
+          "error"
+      ) {
+        const button =
+          document.createElement(
+            "button"
+          );
+
+        button.type = "button";
+
+        button.className =
+          "mt-3 text-[11px] font-extrabold text-[#6d5dfc]";
+
+        button.textContent =
+          "Try again";
+
+        button.addEventListener(
+          "click",
+          () => {
+            window.dispatchEvent(
+              new CustomEvent(
+                "campusflow:retry-weather"
+              )
+            );
+          }
+        );
+
+        article.appendChild(
+          button
+        );
+      }
 
       container.appendChild(
         article

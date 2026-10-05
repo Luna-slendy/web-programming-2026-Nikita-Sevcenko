@@ -1,11 +1,14 @@
 import type {
   Category,
+  CurrentWeather,
   Deadline,
   Project,
   ProjectStatus,
 } from "./types";
 
-function isCategory(value: unknown): value is Category {
+function isCategory(
+  value: unknown
+): value is Category {
   return (
     value === "Frontend" ||
     value === "API" ||
@@ -17,7 +20,10 @@ function isCategory(value: unknown): value is Category {
 function isProjectStatus(
   value: unknown
 ): value is ProjectStatus {
-  return value === "active" || value === "done";
+  return (
+    value === "active" ||
+    value === "done"
+  );
 }
 
 export function isProject(
@@ -30,7 +36,8 @@ export function isProject(
     return false;
   }
 
-  const project = value as Record<string, unknown>;
+  const project =
+    value as Record<string, unknown>;
 
   return (
     typeof project.id === "string" &&
@@ -56,12 +63,43 @@ export function isDeadline(
     return false;
   }
 
-  const deadline = value as Record<string, unknown>;
+  const deadline =
+    value as Record<string, unknown>;
 
   return (
     typeof deadline.title === "string" &&
     typeof deadline.course === "string" &&
     typeof deadline.date === "string" &&
     typeof deadline.time === "string"
+  );
+}
+
+export function isCurrentWeather(
+  value: unknown
+): value is CurrentWeather {
+  if (
+    typeof value !== "object" ||
+    value === null
+  ) {
+    return false;
+  }
+
+  const weather =
+    value as Record<string, unknown>;
+
+  return (
+    typeof weather.time === "string" &&
+    typeof weather.temperature === "number" &&
+    Number.isFinite(
+      weather.temperature
+    ) &&
+    typeof weather.windSpeed === "number" &&
+    Number.isFinite(
+      weather.windSpeed
+    ) &&
+    typeof weather.weatherCode === "number" &&
+    Number.isInteger(
+      weather.weatherCode
+    )
   );
 }

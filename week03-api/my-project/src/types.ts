@@ -36,3 +36,10 @@ export type LoadState<T> =
       status: "error";
       error: string;
     };
+
+export interface CurrentWeather {
+  time: string;
+  temperature: number;
+  windSpeed: number;
+  weatherCode: number;
+}

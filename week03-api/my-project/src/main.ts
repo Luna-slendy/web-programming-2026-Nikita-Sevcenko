@@ -1,9 +1,9 @@
 import "./styles.css";
 
 import {
-  initialProjects,
-  initialDeadlines,
-} from "./data";
+  fetchProjects,
+  fetchDeadlines,
+} from "./api";
 
 import {
   renderOverview,
@@ -13,13 +13,23 @@ import {
 
 import type {
   Category,
+  Deadline,
+  LoadState,
   Project,
   ProjectStatus,
 } from "./types";
 
 type ProjectFilter = ProjectStatus | "all";
 
-const projects: Project[] = [...initialProjects];
+let projects: Project[] = [];
+
+let projectsState: LoadState<Project[]> = {
+  status: "loading",
+};
+
+let deadlinesState: LoadState<Deadline[]> = {
+  status: "loading",
+};
 
 const overviewGrid =
   document.querySelector<HTMLElement>("#overviewGrid");
@@ -37,7 +47,9 @@ const mainNav =
   document.querySelector<HTMLElement>("#mainNav");
 
 const filterButtons =
-  document.querySelectorAll<HTMLButtonElement>(".filter-button");
+  document.querySelectorAll<HTMLButtonElement>(
+    ".filter-button"
+  );
 
 const projectForm =
   document.querySelector<HTMLFormElement>("#projectForm");
@@ -77,7 +89,9 @@ function isProjectFilter(
   );
 }
 
-function isCategory(value: string): value is Category {
+function isCategory(
+  value: string
+): value is Category {
   return (
     value === "Frontend" ||
     value === "API" ||
@@ -88,7 +102,10 @@ function isCategory(value: string): value is Category {
 
 function renderAll(): void {
   if (overviewGrid) {
-    renderOverview(projects, overviewGrid);
+    renderOverview(
+      projects,
+      overviewGrid
+    );
   }
 
   if (projectGrid) {
@@ -96,10 +113,14 @@ function renderAll(): void {
       currentFilter === "all"
         ? projects
         : projects.filter(
-            (project) => project.status === currentFilter
+            (project) =>
+              project.status === currentFilter
           );
 
-    renderProjects(filteredProjects, projectGrid);
+    renderProjects(
+      filteredProjects,
+      projectGrid
+    );
   }
 }
 
@@ -130,22 +151,78 @@ function clearFieldError(
   }
 }
 
-if (deadlineList) {
-  renderDeadlines(initialDeadlines, deadlineList);
+async function loadProjects(): Promise<void> {
+  try {
+    projectsState = {
+      status: "loading",
+    };
+
+    projects = await fetchProjects();
+
+    projectsState = {
+      status: "success",
+      data: projects,
+    };
+
+    renderAll();
+  } catch (error) {
+    projectsState = {
+      status: "error",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to load projects.",
+    };
+  }
 }
 
-renderAll();
+async function loadDeadlines(): Promise<void> {
+  try {
+    deadlinesState = {
+      status: "loading",
+    };
+
+    const deadlines =
+      await fetchDeadlines();
+
+    deadlinesState = {
+      status: "success",
+      data: deadlines,
+    };
+
+    if (deadlineList) {
+      renderDeadlines(
+        deadlines,
+        deadlineList
+      );
+    }
+  } catch (error) {
+    deadlinesState = {
+      status: "error",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to load deadlines.",
+    };
+  }
+}
+
+void loadProjects();
+void loadDeadlines();
 
 if (menuButton && mainNav) {
-  menuButton.addEventListener("click", () => {
-    const isHidden =
-      mainNav.classList.toggle("hidden");
+  menuButton.addEventListener(
+    "click",
+    () => {
+      const isHidden =
+        mainNav.classList.toggle("hidden");
 
-    menuButton.setAttribute(
-      "aria-expanded",
-      String(!isHidden)
-    );
-  });
+      menuButton.setAttribute(
+        "aria-expanded",
+        String(!isHidden)
+      );
+    }
+  );
 }
 
 const activeFilterClasses = [
@@ -159,37 +236,43 @@ const inactiveFilterClasses = [
 ];
 
 filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const selectedFilter = button.dataset.filter;
+  button.addEventListener(
+    "click",
+    () => {
+      const selectedFilter =
+        button.dataset.filter;
 
-    if (!isProjectFilter(selectedFilter)) {
-      return;
-    }
+      if (
+        !isProjectFilter(selectedFilter)
+      ) {
+        return;
+      }
 
-    currentFilter = selectedFilter;
+      currentFilter = selectedFilter;
 
-    filterButtons.forEach((item) => {
-      item.classList.remove(
+      filterButtons.forEach((item) => {
+        item.classList.remove(
+          "active",
+          ...activeFilterClasses
+        );
+
+        item.classList.add(
+          ...inactiveFilterClasses
+        );
+      });
+
+      button.classList.remove(
+        ...inactiveFilterClasses
+      );
+
+      button.classList.add(
         "active",
         ...activeFilterClasses
       );
 
-      item.classList.add(
-        ...inactiveFilterClasses
-      );
-    });
-
-    button.classList.remove(
-      ...inactiveFilterClasses
-    );
-
-    button.classList.add(
-      "active",
-      ...activeFilterClasses
-    );
-
-    renderAll();
-  });
+      renderAll();
+    }
+  );
 });
 
 if (
@@ -200,102 +283,109 @@ if (
   projectDueDate &&
   projectProgress
 ) {
-  projectForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+  projectForm.addEventListener(
+    "submit",
+    (event) => {
+      event.preventDefault();
 
-    const title = projectTitle.value.trim();
-    const description =
-      projectDescription.value.trim();
+      const title =
+        projectTitle.value.trim();
 
-    const categoryValue =
-      projectCategory.value;
+      const description =
+        projectDescription.value.trim();
 
-    const dueDate =
-      projectDueDate.value;
+      const categoryValue =
+        projectCategory.value;
 
-    const progress =
-      Number(projectProgress.value);
+      const dueDate =
+        projectDueDate.value;
 
-    clearFieldError(projectTitle);
-    clearFieldError(projectDescription);
-    clearFieldError(projectCategory);
-    clearFieldError(projectDueDate);
-    clearFieldError(projectProgress);
+      const progress =
+        Number(projectProgress.value);
 
-    let isValid = true;
+      clearFieldError(projectTitle);
+      clearFieldError(projectDescription);
+      clearFieldError(projectCategory);
+      clearFieldError(projectDueDate);
+      clearFieldError(projectProgress);
 
-    if (title.length < 3) {
-      showFieldError(
-        projectTitle,
-        "Title must be at least 3 characters."
-      );
+      let isValid = true;
 
-      isValid = false;
+      if (title.length < 3) {
+        showFieldError(
+          projectTitle,
+          "Title must be at least 3 characters."
+        );
+
+        isValid = false;
+      }
+
+      if (description.length < 10) {
+        showFieldError(
+          projectDescription,
+          "Description must be at least 10 characters."
+        );
+
+        isValid = false;
+      }
+
+      if (!isCategory(categoryValue)) {
+        showFieldError(
+          projectCategory,
+          "Please select a category."
+        );
+
+        isValid = false;
+      }
+
+      if (!dueDate) {
+        showFieldError(
+          projectDueDate,
+          "Please select a due date."
+        );
+
+        isValid = false;
+      }
+
+      if (
+        !Number.isInteger(progress) ||
+        progress < 0 ||
+        progress > 100
+      ) {
+        showFieldError(
+          projectProgress,
+          "Progress must be an integer from 0 to 100."
+        );
+
+        isValid = false;
+      }
+
+      if (
+        !isValid ||
+        !isCategory(categoryValue)
+      ) {
+        return;
+      }
+
+      const newProject: Project = {
+        id: crypto.randomUUID(),
+        title,
+        description,
+        category: categoryValue,
+        status:
+          progress === 100
+            ? "done"
+            : "active",
+        dueDate,
+        progress,
+      };
+
+      projects.push(newProject);
+
+      renderAll();
+
+      projectForm.reset();
+      projectProgress.value = "0";
     }
-
-    if (description.length < 10) {
-      showFieldError(
-        projectDescription,
-        "Description must be at least 10 characters."
-      );
-
-      isValid = false;
-    }
-
-    if (!isCategory(categoryValue)) {
-      showFieldError(
-        projectCategory,
-        "Please select a category."
-      );
-
-      isValid = false;
-    }
-
-    if (!dueDate) {
-      showFieldError(
-        projectDueDate,
-        "Please select a due date."
-      );
-
-      isValid = false;
-    }
-
-    if (
-      !Number.isInteger(progress) ||
-      progress < 0 ||
-      progress > 100
-    ) {
-      showFieldError(
-        projectProgress,
-        "Progress must be an integer from 0 to 100."
-      );
-
-      isValid = false;
-    }
-
-    if (
-      !isValid ||
-      !isCategory(categoryValue)
-    ) {
-      return;
-    }
-
-    const newProject: Project = {
-      id: crypto.randomUUID(),
-      title,
-      description,
-      category: categoryValue,
-      status:
-        progress === 100 ? "done" : "active",
-      dueDate,
-      progress,
-    };
-
-    projects.push(newProject);
-
-    renderAll();
-
-    projectForm.reset();
-    projectProgress.value = "0";
-  });
+  );
 }

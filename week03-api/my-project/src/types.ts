@@ -1,4 +1,5 @@
-export type ProjectStatus = "active" | "done";
+export type ProjectStatus =
+  "active" | "done";
 
 export type Category =
   | "Frontend"

@@ -6,6 +6,10 @@ import {
 } from "./api";
 
 import {
+  isProject,
+} from "./guards";
+
+import {
   renderOverview,
   renderProjects,
   renderDeadlines,
@@ -21,6 +25,13 @@ import type {
 
 type ProjectFilter = ProjectStatus | "all";
 
+const LOCAL_PROJECTS_KEY =
+  "campusflow.week03.localProjects";
+
+let apiProjects: Project[] = [];
+
+let localProjects: Project[] = [];
+
 let projects: Project[] = [];
 
 let projectsState: LoadState<Project[]> = {
@@ -32,19 +43,29 @@ let deadlinesState: LoadState<Deadline[]> = {
 };
 
 const overviewGrid =
-  document.querySelector<HTMLElement>("#overviewGrid");
+  document.querySelector<HTMLElement>(
+    "#overviewGrid"
+  );
 
 const projectGrid =
-  document.querySelector<HTMLElement>("#projectGrid");
+  document.querySelector<HTMLElement>(
+    "#projectGrid"
+  );
 
 const deadlineList =
-  document.querySelector<HTMLElement>("#deadlineList");
+  document.querySelector<HTMLElement>(
+    "#deadlineList"
+  );
 
 const menuButton =
-  document.querySelector<HTMLButtonElement>("#menuButton");
+  document.querySelector<HTMLButtonElement>(
+    "#menuButton"
+  );
 
 const mainNav =
-  document.querySelector<HTMLElement>("#mainNav");
+  document.querySelector<HTMLElement>(
+    "#mainNav"
+  );
 
 const filterButtons =
   document.querySelectorAll<HTMLButtonElement>(
@@ -52,10 +73,14 @@ const filterButtons =
   );
 
 const projectForm =
-  document.querySelector<HTMLFormElement>("#projectForm");
+  document.querySelector<HTMLFormElement>(
+    "#projectForm"
+  );
 
 const projectTitle =
-  document.querySelector<HTMLInputElement>("#projectTitle");
+  document.querySelector<HTMLInputElement>(
+    "#projectTitle"
+  );
 
 const projectDescription =
   document.querySelector<HTMLTextAreaElement>(
@@ -100,28 +125,89 @@ function isCategory(
   );
 }
 
+function loadLocalProjects(): Project[] {
+  const stored =
+    localStorage.getItem(
+      LOCAL_PROJECTS_KEY
+    );
+
+  if (!stored) {
+    return [];
+  }
+
+  try {
+    const parsed: unknown =
+      JSON.parse(stored);
+
+    if (
+      !Array.isArray(parsed) ||
+      !parsed.every(isProject)
+    ) {
+      return [];
+    }
+
+    return parsed;
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalProjects(
+  projectsToSave: Project[]
+): void {
+  localStorage.setItem(
+    LOCAL_PROJECTS_KEY,
+    JSON.stringify(projectsToSave)
+  );
+}
+
+function updateProjectFormState(): void {
+  if (!projectForm) {
+    return;
+  }
+
+  const isReady =
+    projectsState.status === "success";
+
+  const controls =
+    projectForm.querySelectorAll<
+      HTMLInputElement |
+      HTMLTextAreaElement |
+      HTMLSelectElement |
+      HTMLButtonElement
+    >(
+      "input, textarea, select, button"
+    );
+
+  controls.forEach((control) => {
+    control.disabled = !isReady;
+  });
+}
+
 function renderAll(): void {
   if (overviewGrid) {
     renderOverview(
-      projects,
+      projectsState,
       overviewGrid
     );
   }
 
   if (projectGrid) {
-    const filteredProjects =
-      currentFilter === "all"
-        ? projects
-        : projects.filter(
-            (project) =>
-              project.status === currentFilter
-          );
-
     renderProjects(
-      filteredProjects,
-      projectGrid
+      projectsState,
+      projectGrid,
+      currentFilter
     );
   }
+
+  if (deadlineList) {
+    renderDeadlines(
+      deadlinesState,
+      deadlineList
+    );
+  }
+
+  updateProjectFormState();
 }
 
 function showFieldError(
@@ -152,19 +238,28 @@ function clearFieldError(
 }
 
 async function loadProjects(): Promise<void> {
-  try {
-    projectsState = {
-      status: "loading",
-    };
+  projectsState = {
+    status: "loading",
+  };
 
-    projects = await fetchProjects();
+  renderAll();
+
+  try {
+    apiProjects =
+      await fetchProjects();
+
+    localProjects =
+      loadLocalProjects();
+
+    projects = [
+      ...apiProjects,
+      ...localProjects,
+    ];
 
     projectsState = {
       status: "success",
       data: projects,
     };
-
-    renderAll();
   } catch (error) {
     projectsState = {
       status: "error",
@@ -174,14 +269,18 @@ async function loadProjects(): Promise<void> {
           : "Failed to load projects.",
     };
   }
+
+  renderAll();
 }
 
 async function loadDeadlines(): Promise<void> {
-  try {
-    deadlinesState = {
-      status: "loading",
-    };
+  deadlinesState = {
+    status: "loading",
+  };
 
+  renderAll();
+
+  try {
     const deadlines =
       await fetchDeadlines();
 
@@ -189,13 +288,6 @@ async function loadDeadlines(): Promise<void> {
       status: "success",
       data: deadlines,
     };
-
-    if (deadlineList) {
-      renderDeadlines(
-        deadlines,
-        deadlineList
-      );
-    }
   } catch (error) {
     deadlinesState = {
       status: "error",
@@ -205,7 +297,23 @@ async function loadDeadlines(): Promise<void> {
           : "Failed to load deadlines.",
     };
   }
+
+  renderAll();
 }
+
+window.addEventListener(
+  "campusflow:retry-projects",
+  () => {
+    void loadProjects();
+  }
+);
+
+window.addEventListener(
+  "campusflow:retry-deadlines",
+  () => {
+    void loadDeadlines();
+  }
+);
 
 void loadProjects();
 void loadDeadlines();
@@ -215,7 +323,9 @@ if (menuButton && mainNav) {
     "click",
     () => {
       const isHidden =
-        mainNav.classList.toggle("hidden");
+        mainNav.classList.toggle(
+          "hidden"
+        );
 
       menuButton.setAttribute(
         "aria-expanded",
@@ -243,23 +353,28 @@ filterButtons.forEach((button) => {
         button.dataset.filter;
 
       if (
-        !isProjectFilter(selectedFilter)
+        !isProjectFilter(
+          selectedFilter
+        )
       ) {
         return;
       }
 
-      currentFilter = selectedFilter;
+      currentFilter =
+        selectedFilter;
 
-      filterButtons.forEach((item) => {
-        item.classList.remove(
-          "active",
-          ...activeFilterClasses
-        );
+      filterButtons.forEach(
+        (item) => {
+          item.classList.remove(
+            "active",
+            ...activeFilterClasses
+          );
 
-        item.classList.add(
-          ...inactiveFilterClasses
-        );
-      });
+          item.classList.add(
+            ...inactiveFilterClasses
+          );
+        }
+      );
 
       button.classList.remove(
         ...inactiveFilterClasses
@@ -288,6 +403,13 @@ if (
     (event) => {
       event.preventDefault();
 
+      if (
+        projectsState.status !==
+        "success"
+      ) {
+        return;
+      }
+
       const title =
         projectTitle.value.trim();
 
@@ -301,13 +423,29 @@ if (
         projectDueDate.value;
 
       const progress =
-        Number(projectProgress.value);
+        Number(
+          projectProgress.value
+        );
 
-      clearFieldError(projectTitle);
-      clearFieldError(projectDescription);
-      clearFieldError(projectCategory);
-      clearFieldError(projectDueDate);
-      clearFieldError(projectProgress);
+      clearFieldError(
+        projectTitle
+      );
+
+      clearFieldError(
+        projectDescription
+      );
+
+      clearFieldError(
+        projectCategory
+      );
+
+      clearFieldError(
+        projectDueDate
+      );
+
+      clearFieldError(
+        projectProgress
+      );
 
       let isValid = true;
 
@@ -329,7 +467,11 @@ if (
         isValid = false;
       }
 
-      if (!isCategory(categoryValue)) {
+      if (
+        !isCategory(
+          categoryValue
+        )
+      ) {
         showFieldError(
           projectCategory,
           "Please select a category."
@@ -348,7 +490,9 @@ if (
       }
 
       if (
-        !Number.isInteger(progress) ||
+        !Number.isInteger(
+          progress
+        ) ||
         progress < 0 ||
         progress > 100
       ) {
@@ -362,7 +506,9 @@ if (
 
       if (
         !isValid ||
-        !isCategory(categoryValue)
+        !isCategory(
+          categoryValue
+        )
       ) {
         return;
       }
@@ -371,7 +517,8 @@ if (
         id: crypto.randomUUID(),
         title,
         description,
-        category: categoryValue,
+        category:
+          categoryValue,
         status:
           progress === 100
             ? "done"
@@ -380,12 +527,30 @@ if (
         progress,
       };
 
-      projects.push(newProject);
+      localProjects.push(
+        newProject
+      );
+
+      saveLocalProjects(
+        localProjects
+      );
+
+      projects = [
+        ...apiProjects,
+        ...localProjects,
+      ];
+
+      projectsState = {
+        status: "success",
+        data: projects,
+      };
 
       renderAll();
 
       projectForm.reset();
-      projectProgress.value = "0";
+
+      projectProgress.value =
+        "0";
     }
   );
 }

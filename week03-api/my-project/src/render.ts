@@ -1,262 +1,710 @@
-import type { Category, Deadline, Project } from "./types";
+import type {
+  Category,
+  Deadline,
+  LoadState,
+  Project,
+} from "./types";
 
-const categoryColors: Record<Category, string> = {
-  Frontend: "bg-[#f0edff] text-[#6352ed]",
-  API: "bg-[#eaf3ff] text-[#2f78d6]",
-  JavaScript: "bg-[#e9f8f2] text-[#16875b]",
-  Design: "bg-[#fff5de] text-[#aa7416]",
+type ProjectFilter =
+  Project["status"] | "all";
+
+const categoryColors: Record<
+  Category,
+  string
+> = {
+  Frontend:
+    "bg-[#f0edff] text-[#6352ed]",
+  API:
+    "bg-[#eaf3ff] text-[#2f78d6]",
+  JavaScript:
+    "bg-[#e9f8f2] text-[#16875b]",
+  Design:
+    "bg-[#fff5de] text-[#aa7416]",
 };
 
 export function renderOverview(
-  projects: Project[],
+  projectsState: LoadState<Project[]>,
   container: HTMLElement
 ): void {
   container.replaceChildren();
 
-  const totalProjects = projects.length;
+  let projectsValue = "–";
+  let activeValue = "–";
+  let completedValue = "–";
+  let progressValue = "–";
 
-  const activeProjects = projects.filter(
-    (project) => project.status === "active"
-  ).length;
+  if (
+    projectsState.status ===
+    "loading"
+  ) {
+    projectsValue = "…";
+    activeValue = "…";
+    completedValue = "…";
+    progressValue = "…";
+  }
 
-  const completedProjects = projects.filter(
-    (project) => project.status === "done"
-  ).length;
+  if (
+    projectsState.status ===
+    "success"
+  ) {
+    const projects =
+      projectsState.data;
 
-  const averageProgress =
-    totalProjects === 0
-      ? 0
-      : Math.round(
-          projects.reduce(
-            (total, project) => total + project.progress,
-            0
-          ) / totalProjects
-        );
+    const totalProjects =
+      projects.length;
+
+    const activeProjects =
+      projects.filter(
+        (project) =>
+          project.status ===
+          "active"
+      ).length;
+
+    const completedProjects =
+      projects.filter(
+        (project) =>
+          project.status ===
+          "done"
+      ).length;
+
+    const averageProgress =
+      totalProjects === 0
+        ? 0
+        : Math.round(
+            projects.reduce(
+              (total, project) =>
+                total +
+                project.progress,
+              0
+            ) /
+              totalProjects
+          );
+
+    projectsValue =
+      String(totalProjects);
+
+    activeValue =
+      String(activeProjects);
+
+    completedValue =
+      String(
+        completedProjects
+      );
+
+    progressValue =
+      `${averageProgress}%`;
+  }
 
   const statistics = [
     {
       label: "Projects",
-      value: String(totalProjects),
-      description: "Total projects",
+      value: projectsValue,
+      description:
+        "Total projects",
     },
     {
       label: "Active",
-      value: String(activeProjects),
-      description: "In progress",
+      value: activeValue,
+      description:
+        "In progress",
     },
     {
       label: "Completed",
-      value: String(completedProjects),
-      description: "Finished projects",
+      value: completedValue,
+      description:
+        "Finished projects",
     },
     {
       label: "Progress",
-      value: `${averageProgress}%`,
-      description: "Average progress",
+      value: progressValue,
+      description:
+        "Average progress",
     },
   ];
 
-  statistics.forEach((statistic) => {
-    const article = document.createElement("article");
+  statistics.forEach(
+    (statistic) => {
+      const article =
+        document.createElement(
+          "article"
+        );
 
-    article.className =
-      "rounded-[18px] border border-[#e5e9f2] bg-white p-[22px]";
+      article.className =
+        "rounded-[18px] border border-[#e5e9f2] bg-white p-[22px]";
 
-    const label = document.createElement("span");
+      const label =
+        document.createElement(
+          "span"
+        );
 
-    label.className =
-      "text-[11px] font-extrabold uppercase tracking-[0.08em] text-[#6c7485]";
+      label.className =
+        "text-[11px] font-extrabold uppercase tracking-[0.08em] text-[#6c7485]";
 
-    label.textContent = statistic.label;
+      label.textContent =
+        statistic.label;
 
-    const value = document.createElement("strong");
+      const value =
+        document.createElement(
+          "strong"
+        );
 
-    value.className =
-      "mt-2 block text-[28px] tracking-[-0.04em]";
+      value.className =
+        "mt-2 block text-[28px] tracking-[-0.04em]";
 
-    value.textContent = statistic.value;
+      value.textContent =
+        statistic.value;
 
-    const description = document.createElement("span");
+      const description =
+        document.createElement(
+          "span"
+        );
 
-    description.className = "text-[11px] text-[#6c7485]";
+      description.className =
+        "text-[11px] text-[#6c7485]";
 
-    description.textContent = statistic.description;
+      description.textContent =
+        statistic.description;
 
-    article.append(label, value, description);
+      article.append(
+        label,
+        value,
+        description
+      );
 
-    container.appendChild(article);
-  });
+      container.appendChild(
+        article
+      );
+    }
+  );
 }
 
 export function renderProjects(
-  projects: Project[],
-  container: HTMLElement
+  projectsState: LoadState<Project[]>,
+  container: HTMLElement,
+  currentFilter: ProjectFilter
 ): void {
   container.replaceChildren();
 
-  projects.forEach((project) => {
-    const article = document.createElement("article");
+  if (
+    projectsState.status ===
+    "loading"
+  ) {
+    const message =
+      document.createElement(
+        "p"
+      );
 
-    article.className =
-      "project-card rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]";
+    message.className =
+      "py-8 text-center text-[13px] text-[#6c7485]";
 
-    const top = document.createElement("div");
-
-    top.className =
-      "flex items-center justify-between gap-3";
-
-    const category = document.createElement("span");
-
-    category.className =
-      `inline-flex min-h-[25px] items-center rounded-full px-[9px] text-[10px] font-extrabold ${categoryColors[project.category]}`;
-
-    category.textContent = project.category;
-
-    const status = document.createElement("span");
-
-    status.className =
-      project.status === "done"
-        ? "inline-flex min-h-[25px] items-center rounded-full bg-[#edf9f4] px-[9px] text-[10px] font-extrabold text-[#1ca76f]"
-        : "inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]";
-
-    status.textContent =
-      project.status === "done" ? "Done" : "Active";
-
-    top.append(category, status);
-
-    const title = document.createElement("h3");
-
-    title.className =
-      "mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]";
-
-    title.textContent = project.title;
-
-    const description = document.createElement("p");
-
-    description.className =
-      "min-h-[66px] m-0 text-[13px] text-[#6c7485]";
-
-    description.textContent = project.description;
-
-    const info = document.createElement("div");
-
-    info.className =
-      "mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]";
-
-    const dueDate = document.createElement("span");
-
-    dueDate.textContent = `Due ${project.dueDate}`;
-
-    const progressText = document.createElement("span");
-
-    progressText.textContent =
-      `${project.progress}% complete`;
-
-    info.append(dueDate, progressText);
-
-    const progressBackground = document.createElement("div");
-
-    progressBackground.className =
-      "h-[7px] overflow-hidden rounded-full bg-[#eceef4]";
-
-    const progress = document.createElement("div");
-
-    progress.className =
-      "h-full rounded-full bg-[#6d5dfc] transition-all duration-300";
-
-    progress.style.width = `${project.progress}%`;
-
-    progressBackground.appendChild(progress);
-
-    const link = document.createElement("a");
-
-    link.className =
-      "mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]";
-
-    link.href = "#";
-
-    link.textContent =
-      project.status === "done"
-        ? "View submission →"
-        : "Open project →";
-
-    article.append(
-      top,
-      title,
-      description,
-      info,
-      progressBackground,
-      link
+    message.setAttribute(
+      "role",
+      "status"
     );
 
-    container.appendChild(article);
-  });
+    message.textContent =
+      "Loading projects…";
+
+    container.appendChild(
+      message
+    );
+
+    return;
+  }
+
+  if (
+    projectsState.status ===
+    "error"
+  ) {
+    const wrapper =
+      document.createElement(
+        "div"
+      );
+
+    wrapper.className =
+      "grid gap-3 py-8 text-center";
+
+    wrapper.setAttribute(
+      "role",
+      "alert"
+    );
+
+    const message =
+      document.createElement(
+        "p"
+      );
+
+    message.className =
+      "text-[13px] text-[#6c7485]";
+
+    message.textContent =
+      "Failed to load projects.";
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+    button.type = "button";
+
+    button.className =
+      "mx-auto rounded-xl bg-[#6d5dfc] px-4 py-2 text-[12px] font-bold text-white";
+
+    button.textContent =
+      "Try again";
+
+    button.addEventListener(
+      "click",
+      () => {
+        window.dispatchEvent(
+          new CustomEvent(
+            "campusflow:retry-projects"
+          )
+        );
+      }
+    );
+
+    wrapper.append(
+      message,
+      button
+    );
+
+    container.appendChild(
+      wrapper
+    );
+
+    return;
+  }
+
+  const filteredProjects =
+    currentFilter === "all"
+      ? projectsState.data
+      : projectsState.data.filter(
+          (project) =>
+            project.status ===
+            currentFilter
+        );
+
+  if (
+    filteredProjects.length ===
+    0
+  ) {
+    const message =
+      document.createElement(
+        "p"
+      );
+
+    message.className =
+      "py-8 text-center text-[13px] text-[#6c7485]";
+
+    message.setAttribute(
+      "role",
+      "status"
+    );
+
+    message.textContent =
+      currentFilter === "all"
+        ? "No projects found."
+        : "No projects match this filter.";
+
+    container.appendChild(
+      message
+    );
+
+    return;
+  }
+
+  filteredProjects.forEach(
+    (project) => {
+      const article =
+        document.createElement(
+          "article"
+        );
+
+      article.className =
+        "project-card rounded-[18px] border border-[#e5e9f2] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] hover:border-[#d5d9e6] hover:shadow-[0_18px_50px_rgba(34,45,78,0.08)]";
+
+      const top =
+        document.createElement(
+          "div"
+        );
+
+      top.className =
+        "flex items-center justify-between gap-3";
+
+      const category =
+        document.createElement(
+          "span"
+        );
+
+      category.className =
+        `inline-flex min-h-[25px] items-center rounded-full px-[9px] text-[10px] font-extrabold ${categoryColors[project.category]}`;
+
+      category.textContent =
+        project.category;
+
+      const status =
+        document.createElement(
+          "span"
+        );
+
+      status.className =
+        project.status ===
+        "done"
+          ? "inline-flex min-h-[25px] items-center rounded-full bg-[#edf9f4] px-[9px] text-[10px] font-extrabold text-[#1ca76f]"
+          : "inline-flex min-h-[25px] items-center rounded-full bg-[#eef6ff] px-[9px] text-[10px] font-extrabold text-[#3788ff]";
+
+      status.textContent =
+        project.status ===
+        "done"
+          ? "Done"
+          : "Active";
+
+      top.append(
+        category,
+        status
+      );
+
+      const title =
+        document.createElement(
+          "h3"
+        );
+
+      title.className =
+        "mt-6 mb-2 text-[20px] font-bold tracking-[-0.025em]";
+
+      title.textContent =
+        project.title;
+
+      const description =
+        document.createElement(
+          "p"
+        );
+
+      description.className =
+        "min-h-[66px] m-0 text-[13px] text-[#6c7485]";
+
+      description.textContent =
+        project.description;
+
+      const info =
+        document.createElement(
+          "div"
+        );
+
+      info.className =
+        "mt-[22px] mb-[9px] flex items-center justify-between gap-3 text-[10px] font-bold text-[#6c7485]";
+
+      const dueDate =
+        document.createElement(
+          "span"
+        );
+
+      dueDate.textContent =
+        `Due ${project.dueDate}`;
+
+      const progressText =
+        document.createElement(
+          "span"
+        );
+
+      progressText.textContent =
+        `${project.progress}% complete`;
+
+      info.append(
+        dueDate,
+        progressText
+      );
+
+      const progressBackground =
+        document.createElement(
+          "div"
+        );
+
+      progressBackground.className =
+        "h-[7px] overflow-hidden rounded-full bg-[#eceef4]";
+
+      const progress =
+        document.createElement(
+          "div"
+        );
+
+      progress.className =
+        "h-full rounded-full bg-[#6d5dfc] transition-all duration-300";
+
+      progress.style.width =
+        `${project.progress}%`;
+
+      progressBackground.appendChild(
+        progress
+      );
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+      link.className =
+        "mt-[18px] inline-block text-[12px] font-extrabold text-[#6d5dfc] hover:text-[#5547df]";
+
+      link.href = "#";
+
+      link.textContent =
+        project.status ===
+        "done"
+          ? "View submission →"
+          : "Open project →";
+
+      article.append(
+        top,
+        title,
+        description,
+        info,
+        progressBackground,
+        link
+      );
+
+      container.appendChild(
+        article
+      );
+    }
+  );
 }
 
 export function renderDeadlines(
-  deadlines: Deadline[],
+  deadlinesState: LoadState<Deadline[]>,
   container: HTMLElement
 ): void {
   container.replaceChildren();
 
-  deadlines.forEach((deadline) => {
-    const article = document.createElement("article");
+  if (
+    deadlinesState.status ===
+    "loading"
+  ) {
+    const message =
+      document.createElement(
+        "p"
+      );
 
-    article.className =
-      "grid grid-cols-[auto_1fr_auto] items-center gap-3.5 border-b border-[#e5e9f2] px-2 py-3.5 last:border-b-0 max-[640px]:grid-cols-[auto_1fr]";
+    message.className =
+      "py-6 text-center text-[13px] text-[#6c7485]";
 
-    const dateBox = document.createElement("div");
+    message.setAttribute(
+      "role",
+      "status"
+    );
 
-    dateBox.className =
-      "grid min-h-[50px] w-[46px] place-content-center place-items-center rounded-xl bg-[#f8fafc]";
+    message.textContent =
+      "Loading deadlines…";
 
-    const date = new Date(`${deadline.date}T00:00:00`);
+    container.appendChild(
+      message
+    );
 
-    const day = document.createElement("strong");
+    return;
+  }
 
-    day.className = "text-[17px] leading-none";
+  if (
+    deadlinesState.status ===
+    "error"
+  ) {
+    const wrapper =
+      document.createElement(
+        "div"
+      );
 
-    day.textContent = String(date.getDate());
+    wrapper.className =
+      "grid gap-3 py-6 text-center";
 
-    const month = document.createElement("span");
+    wrapper.setAttribute(
+      "role",
+      "alert"
+    );
 
-    month.className =
-      "mt-1 text-[9px] font-extrabold text-[#6c7485]";
+    const message =
+      document.createElement(
+        "p"
+      );
 
-    month.textContent = date
-      .toLocaleString("en-US", { month: "short" })
-      .toUpperCase();
+    message.className =
+      "text-[13px] text-[#6c7485]";
 
-    dateBox.append(day, month);
+    message.textContent =
+      "Failed to load deadlines.";
 
-    const information = document.createElement("div");
+    const button =
+      document.createElement(
+        "button"
+      );
 
-    information.className = "grid gap-[3px]";
+    button.type = "button";
 
-    const title = document.createElement("strong");
+    button.className =
+      "mx-auto rounded-xl bg-[#6d5dfc] px-4 py-2 text-[12px] font-bold text-white";
 
-    title.className = "text-[13px]";
+    button.textContent =
+      "Try again";
 
-    title.textContent = deadline.title;
+    button.addEventListener(
+      "click",
+      () => {
+        window.dispatchEvent(
+          new CustomEvent(
+            "campusflow:retry-deadlines"
+          )
+        );
+      }
+    );
 
-    const course = document.createElement("span");
+    wrapper.append(
+      message,
+      button
+    );
 
-    course.className = "text-[11px] text-[#6c7485]";
+    container.appendChild(
+      wrapper
+    );
 
-    course.textContent =
-      `${deadline.course} · ${deadline.time}`;
+    return;
+  }
 
-    information.append(title, course);
+  if (
+    deadlinesState.data.length ===
+    0
+  ) {
+    const message =
+      document.createElement(
+        "p"
+      );
 
-    const badge = document.createElement("span");
+    message.className =
+      "py-6 text-center text-[13px] text-[#6c7485]";
 
-    badge.className =
-      "inline-flex min-h-[25px] items-center rounded-full bg-[#fff5de] px-[9px] text-[10px] font-extrabold text-[#aa7416]";
+    message.setAttribute(
+      "role",
+      "status"
+    );
 
-    badge.textContent = "";
+    message.textContent =
+      "No deadlines found.";
 
-    article.append(dateBox, information, badge);
+    container.appendChild(
+      message
+    );
 
-    container.appendChild(article);
-  });
+    return;
+  }
+
+  deadlinesState.data.forEach(
+    (deadline) => {
+      const article =
+        document.createElement(
+          "article"
+        );
+
+      article.className =
+        "grid grid-cols-[auto_1fr_auto] items-center gap-3.5 border-b border-[#e5e9f2] px-2 py-3.5 last:border-b-0 max-[640px]:grid-cols-[auto_1fr]";
+
+      const dateBox =
+        document.createElement(
+          "div"
+        );
+
+      dateBox.className =
+        "grid min-h-[50px] w-[46px] place-content-center place-items-center rounded-xl bg-[#f8fafc]";
+
+      const date = new Date(
+        `${deadline.date}T00:00:00`
+      );
+
+      const day =
+        document.createElement(
+          "strong"
+        );
+
+      day.className =
+        "text-[17px] leading-none";
+
+      day.textContent =
+        String(date.getDate());
+
+      const month =
+        document.createElement(
+          "span"
+        );
+
+      month.className =
+        "mt-1 text-[9px] font-extrabold text-[#6c7485]";
+
+      month.textContent =
+        date
+          .toLocaleString(
+            "en-US",
+            {
+              month: "short",
+            }
+          )
+          .toUpperCase();
+
+      dateBox.append(
+        day,
+        month
+      );
+
+      const information =
+        document.createElement(
+          "div"
+        );
+
+      information.className =
+        "grid gap-[3px]";
+
+      const title =
+        document.createElement(
+          "strong"
+        );
+
+      title.className =
+        "text-[13px]";
+
+      title.textContent =
+        deadline.title;
+
+      const course =
+        document.createElement(
+          "span"
+        );
+
+      course.className =
+        "text-[11px] text-[#6c7485]";
+
+      course.textContent =
+        `${deadline.course} · ${deadline.time}`;
+
+      information.append(
+        title,
+        course
+      );
+
+      const badge =
+        document.createElement(
+          "span"
+        );
+
+      badge.className =
+        "inline-flex min-h-[25px] items-center rounded-full bg-[#fff5de] px-[9px] text-[10px] font-extrabold text-[#aa7416]";
+
+      badge.textContent = "";
+
+      article.append(
+        dateBox,
+        information,
+        badge
+      );
+
+      container.appendChild(
+        article
+      );
+    }
+  );
 }

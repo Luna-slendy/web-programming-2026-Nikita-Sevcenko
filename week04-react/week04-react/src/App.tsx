@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Resources from "./components/Resources";
@@ -7,6 +7,11 @@ import StatCard from "./components/StatCard";
 import ProjectList from "./components/ProjectList";
 import DeadlineSection from "./components/DeadlineSection";
 import WeatherCard from "./components/Weathercard";
+import SectionHeading from "./components/SectionHeading";
+import ProjectFilters, {
+  type ProjectFilter,
+} from "./components/ProjectFilters";
+import AddProjectForm from "./components/AddProjectForm";
 
 import type {
   CurrentWeather,
@@ -22,6 +27,7 @@ interface AppProps {
   onRetryProjects: () => void;
   onRetryDeadlines: () => void;
   onRetryWeather: () => void;
+  onAddProject: (project: Project) => void;
 }
 
 function App({
@@ -31,7 +37,23 @@ function App({
   onRetryProjects,
   onRetryDeadlines,
   onRetryWeather,
+  onAddProject,
 }: AppProps) {
+  const [projectFilter, setProjectFilter] =
+    useState<ProjectFilter>("all");
+
+  const visibleProjects: LoadState<Project[]> =
+    projects.status === "success"
+      ? {
+          ...projects,
+          data: projects.data.filter(
+            (project) =>
+              projectFilter === "all" ||
+              project.status === projectFilter,
+          ),
+        }
+      : projects;
+
   const activeCount =
     projects.status === "success"
       ? String(
@@ -87,12 +109,10 @@ function App({
         <Hero />
 
         <section id="overview" className="mt-6">
-          <p className="text-xs font-extrabold tracking-widest text-primary">
-            OVERVIEW
-          </p>
-          <h2 className="mb-5 mt-2 text-2xl font-bold">
-            Your workspace
-          </h2>
+          <SectionHeading
+            eyebrow="OVERVIEW"
+            title="Your workspace"
+          />
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <StatCard
@@ -132,32 +152,42 @@ function App({
               label="Rīga now"
               value={temperature}
               note={weatherNote}
-              tone={weather.status === "error" ? "danger" : "neutral"}
+              tone={
+                weather.status === "error"
+                  ? "danger"
+                  : "neutral"
+              }
             />
           </div>
         </section>
 
         <section id="projects" className="mt-10">
-          <p className="text-xs font-extrabold tracking-widest text-primary">
-            PROJECTS
-          </p>
-          <h2 className="mb-5 mt-2 text-2xl font-bold">
-            Current work
-          </h2>
+          <SectionHeading
+            eyebrow="PROJECTS"
+            title="Current work"
+          />
+
+          <ProjectFilters
+            value={projectFilter}
+            onChange={setProjectFilter}
+          />
 
           <ProjectList
-            state={projects}
+            state={visibleProjects}
             onRetry={onRetryProjects}
           />
         </section>
 
+        <AddProjectForm
+          disabled={projects.status !== "success"}
+          onAddProject={onAddProject}
+        />
+
         <section id="deadlines" className="mt-10">
-          <p className="text-xs font-extrabold tracking-widest text-primary">
-            DEADLINES
-          </p>
-          <h2 className="mb-5 mt-2 text-2xl font-bold">
-            Coming up
-          </h2>
+          <SectionHeading
+            eyebrow="DEADLINES"
+            title="Coming up"
+          />
 
           <DeadlineSection
             state={deadlines}
@@ -166,12 +196,10 @@ function App({
         </section>
 
         <section id="weather" className="mt-10">
-          <p className="text-xs font-extrabold tracking-widest text-primary">
-            WEATHER
-          </p>
-          <h2 className="mb-5 mt-2 text-2xl font-bold">
-            Current conditions
-          </h2>
+          <SectionHeading
+            eyebrow="WEATHER"
+            title="Current conditions"
+          />
 
           <WeatherCard
             state={weather}
@@ -179,7 +207,7 @@ function App({
           />
         </section>
 
-        <section className="mt-10">
+        <section id="resources" className="mt-10">
           <Resources />
         </section>
       </main>

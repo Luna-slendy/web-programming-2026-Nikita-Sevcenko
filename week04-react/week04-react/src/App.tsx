@@ -5,12 +5,8 @@ import Resources from "./components/Resources";
 import Footer from "./components/Footer";
 import StatCard from "./components/StatCard";
 import ProjectList from "./components/ProjectList";
-
-import {
-  LoadingBox,
-  ErrorBox,
-  EmptyBox,
-} from "./components/StateBox";
+import DeadlineSection from "./components/DeadlineSection";
+import WeatherCard from "./components/WeatherCard";
 
 import type {
   CurrentWeather,
@@ -25,6 +21,7 @@ interface AppProps {
   weather: LoadState<CurrentWeather>;
   onRetryProjects: () => void;
   onRetryDeadlines: () => void;
+  onRetryWeather: () => void;
 }
 
 function App({
@@ -33,6 +30,7 @@ function App({
   weather,
   onRetryProjects,
   onRetryDeadlines,
+  onRetryWeather,
 }: AppProps) {
   const activeCount =
     projects.status === "success"
@@ -139,17 +137,19 @@ function App({
           </div>
         </section>
 
-<section id="projects" className="mt-10">
-  <p className="text-xs font-extrabold tracking-widest text-primary">
-    PROJECTS
-  </p>
-  <h2 className="mb-5 mt-2 text-2xl font-bold">Current work</h2>
+        <section id="projects" className="mt-10">
+          <p className="text-xs font-extrabold tracking-widest text-primary">
+            PROJECTS
+          </p>
+          <h2 className="mb-5 mt-2 text-2xl font-bold">
+            Current work
+          </h2>
 
-  <ProjectList
-    state={projects}
-    onRetry={onRetryProjects}
-  />
-</section>
+          <ProjectList
+            state={projects}
+            onRetry={onRetryProjects}
+          />
+        </section>
 
         <section id="deadlines" className="mt-10">
           <p className="text-xs font-extrabold tracking-widest text-primary">
@@ -159,40 +159,24 @@ function App({
             Coming up
           </h2>
 
-          {deadlines.status === "loading" && (
-            <LoadingBox text="Loading deadlines…" />
-          )}
+          <DeadlineSection
+            state={deadlines}
+            onRetry={onRetryDeadlines}
+          />
+        </section>
 
-          {deadlines.status === "error" && (
-            <ErrorBox
-              message={deadlines.error}
-              onRetry={onRetryDeadlines}
-            />
-          )}
+        <section id="weather" className="mt-10">
+          <p className="text-xs font-extrabold tracking-widest text-primary">
+            WEATHER
+          </p>
+          <h2 className="mb-5 mt-2 text-2xl font-bold">
+            Current conditions
+          </h2>
 
-          {deadlines.status === "success" &&
-            (deadlines.data.length === 0 ? (
-              <EmptyBox
-                title="No upcoming deadlines"
-                text="You are all caught up."
-              />
-            ) : (
-              <div className="grid gap-3">
-                {deadlines.data.map((deadline) => (
-                  <article
-                    key={`${deadline.title}-${deadline.date}-${deadline.time}`}
-                    className="rounded-xl border border-[#e5e9f2] bg-white p-4"
-                  >
-                    <h3 className="m-0 font-bold">
-                      {deadline.title}
-                    </h3>
-                    <p className="mb-0 mt-2 text-sm text-[#6c7485]">
-                      {deadline.course} · {deadline.date} · {deadline.time}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            ))}
+          <WeatherCard
+            state={weather}
+            onRetry={onRetryWeather}
+          />
         </section>
 
         <section className="mt-10">

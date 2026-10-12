@@ -37,6 +37,7 @@ let weatherState: LoadState<CurrentWeather> = {
   status: "loading",
 };
 
+
 function render(): void {
   root.render(
     <StrictMode>
@@ -46,10 +47,12 @@ function render(): void {
         weather={weatherState}
         onRetryProjects={() => void loadProjects()}
         onRetryDeadlines={() => void loadDeadlines()}
+        onRetryWeather={() => void loadWeather()}
       />
     </StrictMode>,
   );
 }
+
 
 async function loadProjects(): Promise<void> {
   projectsState = { status: "loading" };

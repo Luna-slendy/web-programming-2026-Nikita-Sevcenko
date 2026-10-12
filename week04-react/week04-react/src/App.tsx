@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import Resources from "./components/Resources";
 import Footer from "./components/Footer";
 import StatCard from "./components/StatCard";
+import ProjectList from "./components/ProjectList";
 
 import {
   LoadingBox,
@@ -138,55 +139,17 @@ function App({
           </div>
         </section>
 
-        <section id="projects" className="mt-10">
-          <p className="text-xs font-extrabold tracking-widest text-primary">
-            PROJECTS
-          </p>
-          <h2 className="mb-5 mt-2 text-2xl font-bold">
-            Current work
-          </h2>
+<section id="projects" className="mt-10">
+  <p className="text-xs font-extrabold tracking-widest text-primary">
+    PROJECTS
+  </p>
+  <h2 className="mb-5 mt-2 text-2xl font-bold">Current work</h2>
 
-          {projects.status === "loading" && (
-            <LoadingBox text="Loading projects…" />
-          )}
-
-          {projects.status === "error" && (
-            <ErrorBox
-              message={projects.error}
-              onRetry={onRetryProjects}
-            />
-          )}
-
-          {projects.status === "success" &&
-            (projects.data.length === 0 ? (
-              <EmptyBox
-                title="No projects yet"
-                text="Your projects will appear here."
-              />
-            ) : (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.data.map((project) => (
-                  <article
-                    key={project.id}
-                    className="rounded-[18px] border border-[#e5e9f2] bg-white p-5"
-                  >
-                    <p className="text-xs font-bold text-primary">
-                      {project.category}
-                    </p>
-                    <h3 className="mt-3 text-lg font-bold">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-[#6c7485]">
-                      {project.description}
-                    </p>
-                    <p className="text-xs text-[#6c7485]">
-                      {project.progress}% complete
-                    </p>
-                  </article>
-                ))}
-              </div>
-            ))}
-        </section>
+  <ProjectList
+    state={projects}
+    onRetry={onRetryProjects}
+  />
+</section>
 
         <section id="deadlines" className="mt-10">
           <p className="text-xs font-extrabold tracking-widest text-primary">

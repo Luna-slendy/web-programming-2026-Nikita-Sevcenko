@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import StatCard from "./components/StatCard";
 import ProjectList from "./components/ProjectList";
 import DeadlineSection from "./components/DeadlineSection";
-import WeatherCard from "./components/WeatherCard";
+import WeatherCard from "./components/Weathercard";
 
 import type {
   CurrentWeather,

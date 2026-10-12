@@ -25,7 +25,7 @@ function WeatherCard({ state, onRetry }: WeatherCardProps) {
       <p className="mb-0 mt-2 text-sm text-[#6c7485]">
         Wind: {state.data.windSpeed} km/h
       </p>
-      <p className="mb-0 mt-1 text-xs text-[#6c7485]">
+      <p className="mb-0 mt-1 text-xs text-[#6c7485">
         Updated: {state.data.time}
       </p>
     </article>

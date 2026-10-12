@@ -7,33 +7,22 @@ Ieteicamais kopējais apjoms: **aptuveni 200–300 vārdi**.
 ---
 
 ## 1. Kad `fetch` nemet kļūdu?
-
-`fetch` nemet kļūdu, ja serveris atbild ar statusu 404 vai 500.
-
-Paskaidrojiet, kāpēc tā ir problēma, un parādiet rindu savā kodā, kas šo gadījumu apstrādā.
+`fetch` automātiski nemet kļūdu, ja serveris atbild ar HTTP statusu 404 vai 500. Šādos gadījumos pieprasījums ir saņēmis atbildi, tāpēc `fetch` to uzskata par veiksmīgi izpildītu tīkla pieprasījumu. Tā ir problēma, jo lietotne var mēģināt izmantot nepareizus vai neesošus datus. 
 
 ---
 
 ## 2. `any` un `unknown`
 
-`response.json()` atgriež `Promise<any>`.
 
-Paskaidrojiet savā formulējumā, kāpēc ar to ir bīstami strādāt un ko maina `const data: unknown = await response.json();`.
-
-Kāda ir atšķirība starp `data as Project[]` un type guard funkciju?
-
+Ar `any` ir bīstami strādāt, jo TypeScript ļauj izmantot šādu vērtību bez pārbaudes. Ja dati nav tādi, kādus mēs gaidām, var rasties kļūdas. `unknown` liek vispirms pārbaudīt datu tipu un struktūru. Izmantojot `data as Project[]`, mēs tikai pasakām TypeScript, ka dati ir projektu masīvs, bet nepārbaudām, vai tā patiešām ir. Type guard funkcija, piemēram, `isProject`, pārbauda datu struktūru un atgriež `true` tikai tad, ja dati atbilst prasībām.
 ---
 
 ## 3. Sveša API dati
 
-Kāpēc Open-Meteo atbildi (`temperature_2m`, `wind_speed_10m`, ...) pārveidojām **savā** tipā `CurrentWeather`, nevis izmantojām API lauku nosaukumus visā lietotnē?
-
-Kas notiktu ar jūsu lapu, ja Open-Meteo rīt pārdēvētu kādu lauku?
+Open-Meteo datus pārveidojām savā `CurrentWeather` tipā, lai lietotnē izmantotu saprotamus un vienotus nosaukumus, piemēram, `temperature` un `windSpeed`. Tādējādi API specifiskie lauku nosaukumi paliek tikai `api.ts` failā. Ja Open-Meteo pārdēvētu kādu lauku, būtu jāpielāgo datu pārveidošana. Bez validācijas lietotne varētu saņemt `undefined` vērtības vai nepareizi attēlot laikapstākļus.
 
 ---
 
 ## 4. Lietotāja skatījums
 
-Aprakstiet **vienu** pārbaudi, ko jūs veicāt ar DevTools (lēns tīkls, bloķēts pieprasījums, bojāts JSON, tukšs saraksts).
-
-Ko lietotājs redzēja **pirms** ielādes stāvokļu pievienošanas un ko redz tagad?
+Pēc ielādes stāvokļu pievienošanas lietotājs redz ziņojumu, ka dati tiek ielādēti. Ja pieprasījums neizdodas, tiek parādīts kļūdas ziņojums un poga `Try again`. Ja saraksts ir tukšs, tiek parādīts atbilstošs paziņojums. Tas ir saprotamāk nekā lapa bez datiem vai neskaidra kļūda.

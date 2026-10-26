@@ -11,12 +11,12 @@ import {
 
 interface AddProjectFormProps {
   disabled: boolean;
-  onAddProject: (project: Project) => void;
+  onAdd: (project: Project) => void;
 }
 
 function AddProjectForm({
   disabled,
-  onAddProject,
+  onAdd,
 }: AddProjectFormProps) {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -40,7 +40,7 @@ function AddProjectForm({
       return;
     }
 
-    onAddProject(result.project);
+    onAdd(result.project);
 
     setValues(EMPTY_FORM);
     setErrors({});
@@ -74,7 +74,10 @@ function AddProjectForm({
         onSubmit={handleSubmit}
         className="rounded-[18px] border border-[#e5e9f2] bg-white p-6"
       >
-        <fieldset disabled={disabled} className="grid gap-5 border-0 p-0">
+        <fieldset
+          disabled={disabled}
+          className="grid gap-5 border-0 p-0"
+        >
           <div>
             <label
               htmlFor="projectTitle"
@@ -229,7 +232,10 @@ function AddProjectForm({
             Add project
           </button>
 
-          <p role="status" className="m-0 text-[12px] text-[#16803d]">
+          <p
+            role="status"
+            className="m-0 text-[12px] text-[#16803d]"
+          >
             {message}
           </p>
         </fieldset>

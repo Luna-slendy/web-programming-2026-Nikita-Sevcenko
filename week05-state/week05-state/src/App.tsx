@@ -27,7 +27,20 @@ interface AppProps {
   onRetryProjects: () => void;
   onRetryDeadlines: () => void;
   onRetryWeather: () => void;
-  onAddProject: (project: Project) => void;
+}
+
+function withLocalProjects(
+  state: LoadState<Project[]>,
+  local: Project[],
+): LoadState<Project[]> {
+  if (state.status !== "success") {
+    return state;
+  }
+
+  return {
+    status: "success",
+    data: [...state.data, ...local],
+  };
 }
 
 function App({
@@ -37,42 +50,54 @@ function App({
   onRetryProjects,
   onRetryDeadlines,
   onRetryWeather,
-  onAddProject,
 }: AppProps) {
   const [projectFilter, setProjectFilter] =
     useState<ProjectFilter>("all");
 
+  const [localProjects, setLocalProjects] =
+    useState<Project[]>([]);
+
+  const combinedProjects = withLocalProjects(
+    projects,
+    localProjects,
+  );
+
   const visibleProjects: LoadState<Project[]> =
-    projects.status === "success"
+    combinedProjects.status === "success"
       ? {
-          ...projects,
-          data: projects.data.filter(
+          ...combinedProjects,
+          data: combinedProjects.data.filter(
             (project) =>
               projectFilter === "all" ||
               project.status === projectFilter,
           ),
         }
-      : projects;
+      : combinedProjects;
+
+  function handleAdd(project: Project): void {
+    setLocalProjects((current) => [...current, project]);
+    setProjectFilter("all");
+  }
 
   const activeCount =
-    projects.status === "success"
+    combinedProjects.status === "success"
       ? String(
-          projects.data.filter(
+          combinedProjects.data.filter(
             (project) => project.status === "active",
           ).length,
         )
-      : projects.status === "loading"
+      : combinedProjects.status === "loading"
         ? "…"
         : "–";
 
   const doneCount =
-    projects.status === "success"
+    combinedProjects.status === "success"
       ? String(
-          projects.data.filter(
+          combinedProjects.data.filter(
             (project) => project.status === "done",
           ).length,
         )
-      : projects.status === "loading"
+      : combinedProjects.status === "loading"
         ? "…"
         : "–";
 
@@ -120,9 +145,9 @@ function App({
               label="Active projects"
               value={activeCount}
               note={
-                projects.status === "error"
+                combinedProjects.status === "error"
                   ? "Projects unavailable"
-                  : "Projects in progress"
+                  : "API + your projects"
               }
               tone="positive"
             />
@@ -180,7 +205,7 @@ function App({
 
         <AddProjectForm
           disabled={projects.status !== "success"}
-          onAddProject={onAddProject}
+          onAdd={handleAdd}
         />
 
         <section id="deadlines" className="mt-10">

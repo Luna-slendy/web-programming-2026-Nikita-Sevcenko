@@ -1,92 +1,50 @@
-
-import { useState } from "react";
-import type { Category, Project } from "../types";
+import { useState, type SubmitEvent } from "react";
+import type { Project } from "../types";
+import {
+  CATEGORIES,
+  EMPTY_FORM,
+  type FieldName,
+  type FormErrors,
+  type FormValues,
+  validate,
+} from "../validation";
 
 interface AddProjectFormProps {
   disabled: boolean;
   onAddProject: (project: Project) => void;
 }
 
-const categories: Category[] = [
-  "Frontend",
-  "API",
-  "JavaScript",
-  "Design",
-];
-
-function isCategory(value: string): value is Category {
-  return categories.some((category) => category === value);
-}
-
 function AddProjectForm({
   disabled,
   onAddProject,
 }: AddProjectFormProps) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [progress, setProgress] = useState("0");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<FormValues>(EMPTY_FORM);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [message, setMessage] = useState("");
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function update(name: FieldName, value: string): void {
+    setValues((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  }
+
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>): void {
     event.preventDefault();
 
-    const cleanTitle = title.trim();
-    const cleanDescription = description.trim();
-    const numericProgress = Number(progress);
-    const nextErrors: Record<string, string> = {};
+    const result = validate(values);
 
-    if (cleanTitle.length < 3) {
-      nextErrors.title = "Title must be at least 3 characters.";
-    }
-
-    if (cleanDescription.length < 10) {
-      nextErrors.description =
-        "Description must be at least 10 characters.";
-    }
-
-    if (!isCategory(category)) {
-      nextErrors.category = "Please select a category.";
-    }
-
-    if (!dueDate) {
-      nextErrors.dueDate = "Please select a due date.";
-    }
-
-    if (
-      !Number.isInteger(numericProgress) ||
-      numericProgress < 0 ||
-      numericProgress > 100
-    ) {
-      nextErrors.progress =
-        "Progress must be an integer from 0 to 100.";
-    }
-
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0 || !isCategory(category)) {
+    if (!result.ok) {
+      setErrors(result.errors);
+      setMessage("");
       return;
     }
 
-    const project: Project = {
-      id: crypto.randomUUID(),
-      title: cleanTitle,
-      description: cleanDescription,
-      category,
-      status: numericProgress === 100 ? "done" : "active",
-      dueDate,
-      progress: numericProgress,
-    };
+    onAddProject(result.project);
 
-    onAddProject(project);
-
-    setTitle("");
-    setDescription("");
-    setCategory("");
-    setDueDate("");
-    setProgress("0");
+    setValues(EMPTY_FORM);
     setErrors({});
+    setMessage(`${result.project.title} added.`);
   }
 
   const fieldClass =
@@ -101,105 +59,167 @@ function AddProjectForm({
         <p className="m-0 mb-2.5 text-[11px] font-extrabold tracking-[0.14em] text-[#6d5dfc]">
           NEW PROJECT
         </p>
+
         <h2 className="m-0 text-[28px] font-bold tracking-[-0.035em]">
           Add a project
         </h2>
+
         <p className="m-0 mt-2 text-[13px] text-[#6c7485]">
           Add a new project to your CampusFlow workspace.
         </p>
       </div>
 
       <form
+        noValidate
         onSubmit={handleSubmit}
         className="rounded-[18px] border border-[#e5e9f2] bg-white p-6"
       >
         <fieldset disabled={disabled} className="grid gap-5 border-0 p-0">
           <div>
-            <label htmlFor="projectTitle" className="mb-2 block text-[11px] font-extrabold">
-              Project title
+            <label
+              htmlFor="projectTitle"
+              className="mb-2 block text-[11px] font-extrabold"
+            >
+              Title
             </label>
+
             <input
               id="projectTitle"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              name="title"
+              type="text"
+              value={values.title}
+              onChange={(event) => update("title", event.target.value)}
+              aria-invalid={errors.title !== undefined}
               className={fieldClass}
             />
-            <p className="mt-1 text-[11px] text-[#e25858]" aria-live="polite">
-              {errors.title ?? ""}
-            </p>
+
+            {errors.title !== undefined && (
+              <p className="mt-1 text-[11px] text-[#e25858]">
+                {errors.title}
+              </p>
+            )}
           </div>
 
           <div>
-            <label htmlFor="projectDescription" className="mb-2 block text-[11px] font-extrabold">
+            <label
+              htmlFor="projectCategory"
+              className="mb-2 block text-[11px] font-extrabold"
+            >
+              Category
+            </label>
+
+            <select
+              id="projectCategory"
+              name="category"
+              value={values.category}
+              onChange={(event) => update("category", event.target.value)}
+              aria-invalid={errors.category !== undefined}
+              className={fieldClass}
+            >
+              <option value="">Choose…</option>
+
+              {CATEGORIES.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+
+            {errors.category !== undefined && (
+              <p className="mt-1 text-[11px] text-[#e25858]">
+                {errors.category}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="projectDescription"
+              className="mb-2 block text-[11px] font-extrabold"
+            >
               Description
             </label>
+
             <textarea
               id="projectDescription"
+              name="description"
               rows={4}
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
+              value={values.description}
+              onChange={(event) =>
+                update("description", event.target.value)
+              }
+              aria-invalid={errors.description !== undefined}
               className={`${fieldClass} resize-none`}
             />
-            <p className="mt-1 text-[11px] text-[#e25858]" aria-live="polite">
-              {errors.description ?? ""}
+
+            <p
+              className={`mt-1 text-[11px] ${
+                values.description.length > 200
+                  ? "text-[#e25858]"
+                  : "text-[#6c7485]"
+              }`}
+            >
+              {values.description.length}/200
             </p>
-          </div>
 
-          <div className="grid gap-5 min-[641px]:grid-cols-2">
-            <div>
-              <label htmlFor="projectCategory" className="mb-2 block text-[11px] font-extrabold">
-                Category
-              </label>
-              <select
-                id="projectCategory"
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                className={fieldClass}
-              >
-                <option value="">Select category</option>
-                {categories.map((item) => (
-                  <option key={item} value={item}>{item}</option>
-                ))}
-              </select>
-              <p className="mt-1 text-[11px] text-[#e25858]" aria-live="polite">
-                {errors.category ?? ""}
+            {errors.description !== undefined && (
+              <p className="mt-1 text-[11px] text-[#e25858]">
+                {errors.description}
               </p>
-            </div>
-
-            <div>
-              <label htmlFor="projectDueDate" className="mb-2 block text-[11px] font-extrabold">
-                Due date
-              </label>
-              <input
-                id="projectDueDate"
-                type="date"
-                value={dueDate}
-                onChange={(event) => setDueDate(event.target.value)}
-                className={fieldClass}
-              />
-              <p className="mt-1 text-[11px] text-[#e25858]" aria-live="polite">
-                {errors.dueDate ?? ""}
-              </p>
-            </div>
+            )}
           </div>
 
           <div>
-            <label htmlFor="projectProgress" className="mb-2 block text-[11px] font-extrabold">
-              Progress
+            <label
+              htmlFor="projectDueDate"
+              className="mb-2 block text-[11px] font-extrabold"
+            >
+              Due date
             </label>
+
+            <input
+              id="projectDueDate"
+              name="dueDate"
+              type="date"
+              value={values.dueDate}
+              onChange={(event) => update("dueDate", event.target.value)}
+              aria-invalid={errors.dueDate !== undefined}
+              className={fieldClass}
+            />
+
+            {errors.dueDate !== undefined && (
+              <p className="mt-1 text-[11px] text-[#e25858]">
+                {errors.dueDate}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="projectProgress"
+              className="mb-2 block text-[11px] font-extrabold"
+            >
+              Progress (%)
+            </label>
+
             <input
               id="projectProgress"
+              name="progress"
               type="number"
               min="0"
               max="100"
               step="1"
-              value={progress}
-              onChange={(event) => setProgress(event.target.value)}
+              value={values.progress}
+              onChange={(event) => update("progress", event.target.value)}
+              aria-invalid={errors.progress !== undefined}
               className={fieldClass}
             />
-            <p className="mt-1 text-[11px] text-[#e25858]" aria-live="polite">
-              {errors.progress ?? ""}
-            </p>
+
+            {errors.progress !== undefined && (
+              <p className="mt-1 text-[11px] text-[#e25858]">
+                {errors.progress}
+              </p>
+            )}
           </div>
 
           <button
@@ -208,6 +228,10 @@ function AddProjectForm({
           >
             Add project
           </button>
+
+          <p role="status" className="m-0 text-[12px] text-[#16803d]">
+            {message}
+          </p>
         </fieldset>
       </form>
     </section>

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useLocalStorage } from "./hooks/useLocalStorage";
+import { isProjectList } from "./guards";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Resources from "./components/Resources";
@@ -54,8 +56,11 @@ function App({
   const [projectFilter, setProjectFilter] =
     useState<ProjectFilter>("all");
 
-  const [localProjects, setLocalProjects] =
-    useState<Project[]>([]);
+const [localProjects, setLocalProjects] = useLocalStorage<Project[]>(
+  "campusflow.week05.localProjects",
+  [],
+  isProjectList,
+);
 
   const combinedProjects = withLocalProjects(
     projects,
@@ -75,7 +80,7 @@ function App({
       : combinedProjects;
 
   function handleAdd(project: Project): void {
-    setLocalProjects((current) => [...current, project]);
+    setLocalProjects([...localProjects, project]);
     setProjectFilter("all");
   }
 

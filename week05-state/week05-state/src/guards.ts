@@ -6,9 +6,7 @@ import type {
   ProjectStatus,
 } from "./types";
 
-function isCategory(
-  value: unknown
-): value is Category {
+function isCategory(value: unknown): value is Category {
   return (
     value === "Frontend" ||
     value === "API" ||
@@ -17,27 +15,16 @@ function isCategory(
   );
 }
 
-function isProjectStatus(
-  value: unknown
-): value is ProjectStatus {
-  return (
-    value === "active" ||
-    value === "done"
-  );
+function isProjectStatus(value: unknown): value is ProjectStatus {
+  return value === "active" || value === "done";
 }
 
-export function isProject(
-  value: unknown
-): value is Project {
-  if (
-    typeof value !== "object" ||
-    value === null
-  ) {
+export function isProject(value: unknown): value is Project {
+  if (typeof value !== "object" || value === null) {
     return false;
   }
 
-  const project =
-    value as Record<string, unknown>;
+  const project = value as Record<string, unknown>;
 
   return (
     typeof project.id === "string" &&
@@ -53,18 +40,16 @@ export function isProject(
   );
 }
 
-export function isDeadline(
-  value: unknown
-): value is Deadline {
-  if (
-    typeof value !== "object" ||
-    value === null
-  ) {
+export function isProjectList(value: unknown): value is Project[] {
+  return Array.isArray(value) && value.every(isProject);
+}
+
+export function isDeadline(value: unknown): value is Deadline {
+  if (typeof value !== "object" || value === null) {
     return false;
   }
 
-  const deadline =
-    value as Record<string, unknown>;
+  const deadline = value as Record<string, unknown>;
 
   return (
     typeof deadline.title === "string" &&
@@ -75,31 +60,21 @@ export function isDeadline(
 }
 
 export function isCurrentWeather(
-  value: unknown
+  value: unknown,
 ): value is CurrentWeather {
-  if (
-    typeof value !== "object" ||
-    value === null
-  ) {
+  if (typeof value !== "object" || value === null) {
     return false;
   }
 
-  const weather =
-    value as Record<string, unknown>;
+  const weather = value as Record<string, unknown>;
 
   return (
     typeof weather.time === "string" &&
     typeof weather.temperature === "number" &&
-    Number.isFinite(
-      weather.temperature
-    ) &&
+    Number.isFinite(weather.temperature) &&
     typeof weather.windSpeed === "number" &&
-    Number.isFinite(
-      weather.windSpeed
-    ) &&
+    Number.isFinite(weather.windSpeed) &&
     typeof weather.weatherCode === "number" &&
-    Number.isInteger(
-      weather.weatherCode
-    )
+    Number.isInteger(weather.weatherCode)
   );
 }

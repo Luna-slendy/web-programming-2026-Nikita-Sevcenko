@@ -1,19 +1,13 @@
-import { useState } from "react";
+
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { isProjectList } from "./guards";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Resources from "./components/Resources";
-import Footer from "./components/Footer";
-import StatCard from "./components/StatCard";
-import ProjectList from "./components/ProjectList";
-import DeadlineSection from "./components/DeadlineSection";
-import WeatherCard from "./components/Weathercard";
-import SectionHeading from "./components/SectionHeading";
-import ProjectFilters, {
-  type ProjectFilter,
-} from "./components/ProjectFilters";
-import AddProjectForm from "./components/AddProjectForm";
+import { Route, Routes } from "react-router";
+import Layout from "./components/Layout";
+
+import DashboardPage from "./pages/DashboardPage";
+import ProjectsPage from "./pages/ProjectPage";
+import ProjectDetailsPage from "./pages/ProjectDetailsPage";
+import DeadlinesPage from "./pages/DeadlinesPage";
 
 import type {
   CurrentWeather,
@@ -53,197 +47,66 @@ function App({
   onRetryDeadlines,
   onRetryWeather,
 }: AppProps) {
-  const [projectFilter, setProjectFilter] =
-    useState<ProjectFilter>("all");
-
-const [localProjects, setLocalProjects] = useLocalStorage<Project[]>(
-  "campusflow.week05.localProjects",
-  [],
-  isProjectList,
-);
+  const [localProjects, setLocalProjects] =
+    useLocalStorage<Project[]>(
+      "campusflow.week06.localProjects",
+      [],
+      isProjectList,
+    );
 
   const combinedProjects = withLocalProjects(
     projects,
     localProjects,
   );
 
-  const visibleProjects: LoadState<Project[]> =
-    combinedProjects.status === "success"
-      ? {
-          ...combinedProjects,
-          data: combinedProjects.data.filter(
-            (project) =>
-              projectFilter === "all" ||
-              project.status === projectFilter,
-          ),
-        }
-      : combinedProjects;
-
   function handleAdd(project: Project): void {
     setLocalProjects([...localProjects, project]);
-    setProjectFilter("all");
   }
 
-  const activeCount =
-    combinedProjects.status === "success"
-      ? String(
-          combinedProjects.data.filter(
-            (project) => project.status === "active",
-          ).length,
-        )
-      : combinedProjects.status === "loading"
-        ? "…"
-        : "–";
-
-  const doneCount =
-    combinedProjects.status === "success"
-      ? String(
-          combinedProjects.data.filter(
-            (project) => project.status === "done",
-          ).length,
-        )
-      : combinedProjects.status === "loading"
-        ? "…"
-        : "–";
-
-  const deadlineCount =
-    deadlines.status === "success"
-      ? String(deadlines.data.length)
-      : deadlines.status === "loading"
-        ? "…"
-        : "–";
-
-  const temperature =
-    weather.status === "success"
-      ? `${weather.data.temperature}°C`
-      : weather.status === "loading"
-        ? "…"
-        : "–";
-
-  const weatherNote =
-    weather.status === "success"
-      ? `Wind: ${weather.data.windSpeed} km/h`
-      : weather.status === "loading"
-        ? "Loading weather…"
-        : "Weather unavailable";
-
   return (
-    <>
-      <Header
-        userName="Alex Student"
-        userInitials="AZ"
-        course="Web Programming"
-      />
-
-      <main className="mx-auto w-[calc(100%-28px)] max-w-[1180px] py-6 sm:w-[calc(100%-40px)]">
-        <Hero />
-
-        <section id="overview" className="mt-6">
-          <SectionHeading
-            eyebrow="OVERVIEW"
-            title="Your workspace"
-          />
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              index="01"
-              label="Active projects"
-              value={activeCount}
-              note={
-                combinedProjects.status === "error"
-                  ? "Projects unavailable"
-                  : "API + your projects"
-              }
-              tone="positive"
+    <Routes>
+      <Route element={<Layout />}>
+        <Route
+          index
+          element={
+            <DashboardPage
+              projects={combinedProjects}
+              deadlines={deadlines}
+              weather={weather}
+              onRetryDeadlines={onRetryDeadlines}
+              onRetryWeather={onRetryWeather}
             />
-
-            <StatCard
-              index="02"
-              label="Completed"
-              value={doneCount}
-              note="Finished projects"
-              tone="neutral"
-            />
-
-            <StatCard
-              index="03"
-              label="Upcoming deadlines"
-              value={deadlineCount}
-              note={
-                deadlines.status === "error"
-                  ? "Deadlines unavailable"
-                  : "Deadlines to review"
-              }
-              tone="neutral"
-            />
-
-            <StatCard
-              index="04"
-              label="Rīga now"
-              value={temperature}
-              note={weatherNote}
-              tone={
-                weather.status === "error"
-                  ? "danger"
-                  : "neutral"
-              }
-            />
-          </div>
-        </section>
-
-        <section id="projects" className="mt-10">
-          <SectionHeading
-            eyebrow="PROJECTS"
-            title="Current work"
-          />
-
-          <ProjectFilters
-            value={projectFilter}
-            onChange={setProjectFilter}
-          />
-
-          <ProjectList
-            state={visibleProjects}
-            onRetry={onRetryProjects}
-          />
-        </section>
-
-        <AddProjectForm
-          disabled={projects.status !== "success"}
-          onAdd={handleAdd}
+          }
         />
 
-        <section id="deadlines" className="mt-10">
-          <SectionHeading
-            eyebrow="DEADLINES"
-            title="Coming up"
-          />
+        <Route
+          path="projects"
+          element={
+            <ProjectsPage
+              projects={combinedProjects}
+              canAddProjects={projects.status === "success"}
+              onRetry={onRetryProjects}
+              onAdd={handleAdd}
+            />
+          }
+        />
 
-          <DeadlineSection
-            state={deadlines}
-            onRetry={onRetryDeadlines}
-          />
-        </section>
+        <Route
+          path="projects/:projectId"
+          element={<ProjectDetailsPage />}
+        />
 
-        <section id="weather" className="mt-10">
-          <SectionHeading
-            eyebrow="WEATHER"
-            title="Current conditions"
-          />
-
-          <WeatherCard
-            state={weather}
-            onRetry={onRetryWeather}
-          />
-        </section>
-
-        <section id="resources" className="mt-10">
-          <Resources />
-        </section>
-      </main>
-
-      <Footer note="Your workspace, one step at a time." />
-    </>
+        <Route
+          path="deadlines"
+          element={
+            <DeadlinesPage
+              deadlines={deadlines}
+              onRetry={onRetryDeadlines}
+            />
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 

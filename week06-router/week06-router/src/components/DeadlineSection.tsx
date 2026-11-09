@@ -1,4 +1,3 @@
-
 import type { Deadline, LoadState } from "../types";
 import DeadlineItem from "./DeadlineItem";
 import { LoadingBox, ErrorBox, EmptyBox } from "./StateBox";
@@ -6,9 +5,14 @@ import { LoadingBox, ErrorBox, EmptyBox } from "./StateBox";
 interface DeadlineSectionProps {
   state: LoadState<Deadline[]>;
   onRetry: () => void;
+  limit?: number;
 }
 
-function DeadlineSection({ state, onRetry }: DeadlineSectionProps) {
+function DeadlineSection({
+  state,
+  onRetry,
+  limit,
+}: DeadlineSectionProps) {
   if (state.status === "loading") {
     return <LoadingBox text="Loading deadlines…" />;
   }
@@ -17,7 +21,10 @@ function DeadlineSection({ state, onRetry }: DeadlineSectionProps) {
     return <ErrorBox message={state.error} onRetry={onRetry} />;
   }
 
-  if (state.data.length === 0) {
+  const deadlines =
+    limit === undefined ? state.data : state.data.slice(0, limit);
+
+  if (deadlines.length === 0) {
     return (
       <EmptyBox
         title="No upcoming deadlines"
@@ -28,7 +35,7 @@ function DeadlineSection({ state, onRetry }: DeadlineSectionProps) {
 
   return (
     <div className="grid gap-3">
-      {state.data.map((deadline) => (
+      {deadlines.map((deadline) => (
         <DeadlineItem
           key={`${deadline.title}-${deadline.date}-${deadline.time}`}
           deadline={deadline}

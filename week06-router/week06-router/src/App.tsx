@@ -6,6 +6,7 @@ import DashboardPage from "./pages/DashboardPage";
 import ProjectsPage from "./pages/ProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetailsPage";
 import DeadlinesPage from "./pages/DeadlinesPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 import type {
   CurrentWeather,
@@ -107,6 +108,11 @@ function App({
               onRetry={onRetryDeadlines}
             />
           }
+        />
+
+        <Route
+          path="*"
+          element={<NotFoundPage />}
         />
       </Route>
     </Routes>

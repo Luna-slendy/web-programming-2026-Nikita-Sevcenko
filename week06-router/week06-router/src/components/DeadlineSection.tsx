@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Deadline, LoadState } from "../types";
 import DeadlineItem from "./DeadlineItem";
 import { LoadingBox, ErrorBox, EmptyBox } from "./StateBox";
@@ -18,7 +19,12 @@ function DeadlineSection({
   }
 
   if (state.status === "error") {
-    return <ErrorBox message={state.error} onRetry={onRetry} />;
+    return (
+      <ErrorBox
+        message={state.error}
+        onRetry={onRetry}
+      />
+    );
   }
 
   const deadlines =
@@ -34,13 +40,26 @@ function DeadlineSection({
   }
 
   return (
-    <div className="grid gap-3">
-      {deadlines.map((deadline) => (
-        <DeadlineItem
-          key={`${deadline.title}-${deadline.date}-${deadline.time}`}
-          deadline={deadline}
-        />
-      ))}
+    <div>
+      {limit !== undefined && (
+        <div className="mb-4 flex justify-end">
+          <Link
+            to="/deadlines"
+            className="text-sm font-bold text-primary hover:underline"
+          >
+            See all deadlines →
+          </Link>
+        </div>
+      )}
+
+      <div className="grid gap-3">
+        {deadlines.map((deadline) => (
+          <DeadlineItem
+            key={`${deadline.title}-${deadline.date}-${deadline.time}`}
+            deadline={deadline}
+          />
+        ))}
+      </div>
     </div>
   );
 }

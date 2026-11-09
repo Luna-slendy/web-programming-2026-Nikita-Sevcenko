@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 
 function Hero() {
   return (
@@ -6,18 +7,28 @@ function Hero() {
         <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-primary">
           YOUR LEARNING SPACE
         </p>
+
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">
           Your workspace
         </h1>
+
         <p className="mt-3 max-w-xl text-sm leading-6 text-[#6c7485]">
           Keep track of your projects, deadlines, and progress in one place.
         </p>
+
+        <Link
+          to="/projects"
+          className="mt-5 inline-flex rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
+        >
+          View projects
+        </Link>
       </div>
 
       <aside className="rounded-2xl border border-[#f3e4b6] bg-[#fff8e8] p-5">
         <p className="m-0 text-xs font-extrabold text-[#9a6c16]">
           THIS WEEK
         </p>
+
         <p className="mb-0 mt-2 text-sm text-[#735d34]">
           Review your current projects and upcoming deadlines.
         </p>

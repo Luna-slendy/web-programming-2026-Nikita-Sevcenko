@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Project } from "../types";
 
 interface ProjectCardProps {
@@ -11,6 +12,7 @@ function ProjectCard({ project }: ProjectCardProps) {
         <span className="text-xs font-bold text-primary">
           {project.category}
         </span>
+
         <span className="text-xs text-[#6c7485]">
           {project.status === "active" ? "Active" : "Completed"}
         </span>
@@ -24,6 +26,7 @@ function ProjectCard({ project }: ProjectCardProps) {
         <span className="text-xs text-[#6c7485]">
           Due: {project.dueDate}
         </span>
+
         <span className="text-xs font-bold text-primary">
           {project.progress}%
         </span>
@@ -42,6 +45,13 @@ function ProjectCard({ project }: ProjectCardProps) {
           style={{ width: `${project.progress}%` }}
         />
       </div>
+
+      <Link
+        to={`/projects/${project.id}`}
+        className="mt-5 inline-flex text-sm font-bold text-primary hover:underline"
+      >
+        Open project →
+      </Link>
     </article>
   );
 }

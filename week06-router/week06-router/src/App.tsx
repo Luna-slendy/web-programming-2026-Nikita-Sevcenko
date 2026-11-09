@@ -1,9 +1,7 @@
-
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { isProjectList } from "./guards";
 import { Route, Routes } from "react-router";
 import Layout from "./components/Layout";
-
 import DashboardPage from "./pages/DashboardPage";
 import ProjectsPage from "./pages/ProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetailsPage";

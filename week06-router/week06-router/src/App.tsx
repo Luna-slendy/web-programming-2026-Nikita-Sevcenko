@@ -91,7 +91,12 @@ function App({
 
         <Route
           path="projects/:projectId"
-          element={<ProjectDetailsPage />}
+          element={
+            <ProjectDetailsPage
+              projects={combinedProjects}
+              onRetry={onRetryProjects}
+            />
+          }
         />
 
         <Route

@@ -1,4 +1,3 @@
-
 import { Link } from "react-router";
 import Hero from "../components/Hero";
 import Resources from "../components/Resources";
@@ -6,8 +5,8 @@ import StatCard from "../components/StatCard";
 import DeadlineSection from "../components/DeadlineSection";
 import WeatherCard from "../components/Weathercard";
 import SectionHeading from "../components/SectionHeading";
+
 import type {
-  CurrentWeather,
   Deadline,
   LoadState,
   Project,
@@ -16,23 +15,20 @@ import type {
 interface DashboardPageProps {
   projects: LoadState<Project[]>;
   deadlines: LoadState<Deadline[]>;
-  weather: LoadState<CurrentWeather>;
   onRetryDeadlines: () => void;
-  onRetryWeather: () => void;
 }
 
 function DashboardPage({
   projects,
   deadlines,
-  weather,
   onRetryDeadlines,
-  onRetryWeather,
 }: DashboardPageProps) {
   const activeCount =
     projects.status === "success"
       ? String(
-          projects.data.filter((project) => project.status === "active")
-            .length,
+          projects.data.filter(
+            (project) => project.status === "active"
+          ).length,
         )
       : projects.status === "loading"
         ? "…"
@@ -41,8 +37,9 @@ function DashboardPage({
   const doneCount =
     projects.status === "success"
       ? String(
-          projects.data.filter((project) => project.status === "done")
-            .length,
+          projects.data.filter(
+            (project) => project.status === "done"
+          ).length,
         )
       : projects.status === "loading"
         ? "…"
@@ -55,20 +52,6 @@ function DashboardPage({
         ? "…"
         : "–";
 
-  const temperature =
-    weather.status === "success"
-      ? `${weather.data.temperature}°C`
-      : weather.status === "loading"
-        ? "…"
-        : "–";
-
-  const weatherNote =
-    weather.status === "success"
-      ? `Wind: ${weather.data.windSpeed} km/h`
-      : weather.status === "loading"
-        ? "Loading weather…"
-        : "Weather unavailable";
-
   return (
     <div className="mx-auto w-[calc(100%-28px)] max-w-[1180px] py-6 sm:w-[calc(100%-40px)]">
       <Hero />
@@ -79,7 +62,7 @@ function DashboardPage({
           title="Your workspace"
         />
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             index="01"
             label="Active projects"
@@ -111,14 +94,6 @@ function DashboardPage({
             }
             tone="neutral"
           />
-
-          <StatCard
-            index="04"
-            label="Rīga now"
-            value={temperature}
-            note={weatherNote}
-            tone={weather.status === "error" ? "danger" : "neutral"}
-          />
         </div>
       </section>
 
@@ -128,6 +103,7 @@ function DashboardPage({
             eyebrow="DEADLINES"
             title="Coming up"
           />
+
           <Link
             to="/deadlines"
             className="shrink-0 text-sm font-semibold text-orange-600 transition hover:text-orange-700"
@@ -148,10 +124,8 @@ function DashboardPage({
           eyebrow="WEATHER"
           title="Current conditions"
         />
-        <WeatherCard
-          state={weather}
-          onRetry={onRetryWeather}
-        />
+
+        <WeatherCard />
       </section>
 
       <section id="resources" className="mt-10">

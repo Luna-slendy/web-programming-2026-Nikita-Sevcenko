@@ -1,6 +1,9 @@
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useFetch } from "./hooks/useFetch";
+import { fetchProjects, fetchDeadlines } from "./api";
 import { isProjectList } from "./guards";
 import { Route, Routes } from "react-router";
+
 import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import ProjectsPage from "./pages/ProjectPage";
@@ -8,21 +11,7 @@ import ProjectDetailsPage from "./pages/ProjectDetailsPage";
 import DeadlinesPage from "./pages/DeadlinesPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
-import type {
-  CurrentWeather,
-  Deadline,
-  LoadState,
-  Project,
-} from "./types";
-
-interface AppProps {
-  projects: LoadState<Project[]>;
-  deadlines: LoadState<Deadline[]>;
-  weather: LoadState<CurrentWeather>;
-  onRetryProjects: () => void;
-  onRetryDeadlines: () => void;
-  onRetryWeather: () => void;
-}
+import type { Project, LoadState } from "./types";
 
 function withLocalProjects(
   state: LoadState<Project[]>,
@@ -38,17 +27,20 @@ function withLocalProjects(
   };
 }
 
-function App({
-  projects,
-  deadlines,
-  weather,
-  onRetryProjects,
-  onRetryDeadlines,
-  onRetryWeather,
-}: AppProps) {
+function App() {
+  const {
+    state: projects,
+    retry: onRetryProjects,
+  } = useFetch(fetchProjects);
+
+  const {
+    state: deadlines,
+    retry: onRetryDeadlines,
+  } = useFetch(fetchDeadlines);
+
   const [localProjects, setLocalProjects] =
     useLocalStorage<Project[]>(
-      "campusflow.week06.localProjects",
+      "campusflow.week07.localProjects",
       [],
       isProjectList,
     );
@@ -71,9 +63,7 @@ function App({
             <DashboardPage
               projects={combinedProjects}
               deadlines={deadlines}
-              weather={weather}
               onRetryDeadlines={onRetryDeadlines}
-              onRetryWeather={onRetryWeather}
             />
           }
         />
